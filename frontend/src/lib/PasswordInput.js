@@ -6,9 +6,8 @@ import {
   InputAdornment,
   IconButton,
   FormHelperText,
-} from "@material-ui/core";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
+} from "@mui/material";
+import {Visibility, VisibilityOff} from "@mui/icons-material";
 
 const PasswordInput = (props) => {
   const [showPassword, setShowPassword] = useState(false);

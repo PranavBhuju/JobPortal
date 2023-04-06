@@ -5,14 +5,13 @@ import {
   Typography,
   Modal,
   Paper,
-  makeStyles,
   TextField,
-} from "@material-ui/core";
+  Chip
+} from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import axios from "axios";
-import ChipInput from "material-ui-chip-input";
 import FileUploadInput from "../lib/FileUploadInput";
-import DescriptionIcon from "@material-ui/icons/Description";
-import FaceIcon from "@material-ui/icons/Face";
+import { Description, Face } from "@mui/icons-material";
 
 import { SetPopupContext } from "../App";
 
@@ -253,7 +252,7 @@ const Profile = (props) => {
                 setEducation={setEducation}
               />
               <Grid item>
-                <ChipInput
+                <Chip
                   className={classes.inputBox}
                   label="Skills"
                   variant="outlined"
@@ -280,7 +279,7 @@ const Profile = (props) => {
                 <FileUploadInput
                   className={classes.inputBox}
                   label="Resume (.pdf)"
-                  icon={<DescriptionIcon />}
+                  icon={<Description />}
                   uploadTo={apiList.uploadResume}
                   handleInput={handleInput}
                   identifier={"resume"}
@@ -290,7 +289,7 @@ const Profile = (props) => {
                 <FileUploadInput
                   className={classes.inputBox}
                   label="Profile Photo (.jpg/.png)"
-                  icon={<FaceIcon />}
+                  icon={<Face />}
                   uploadTo={apiList.uploadProfileImage}
                   handleInput={handleInput}
                   identifier={"profile"}

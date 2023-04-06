@@ -5,7 +5,6 @@ import {
   Grid,
   IconButton,
   InputAdornment,
-  makeStyles,
   Paper,
   TextField,
   Typography,
@@ -16,13 +15,12 @@ import {
   MenuItem,
   Checkbox,
   Avatar,
-} from "@material-ui/core";
+  Rating
+} from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import { useParams } from "react-router-dom";
-import Rating from "@material-ui/lab/Rating";
 import axios from "axios";
-import FilterListIcon from "@material-ui/icons/FilterList";
-import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
-import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
+import {FilterList, ArrowUpward, ArrowDownward} from "@mui/icons-material";
 
 import { SetPopupContext } from "../../App";
 
@@ -198,9 +196,9 @@ const FilterPopup = (props) => {
                     }}
                   >
                     {searchOptions.sort["jobApplicant.name"].desc ? (
-                      <ArrowDownwardIcon />
+                      <ArrowDownward />
                     ) : (
-                      <ArrowUpwardIcon />
+                      <ArrowUpward />
                     )}
                   </IconButton>
                 </Grid>
@@ -254,9 +252,9 @@ const FilterPopup = (props) => {
                     }}
                   >
                     {searchOptions.sort.dateOfApplication.desc ? (
-                      <ArrowDownwardIcon />
+                      <ArrowDownward />
                     ) : (
-                      <ArrowUpwardIcon />
+                      <ArrowUpward />
                     )}
                   </IconButton>
                 </Grid>
@@ -311,9 +309,9 @@ const FilterPopup = (props) => {
                     }}
                   >
                     {searchOptions.sort["jobApplicant.rating"].desc ? (
-                      <ArrowDownwardIcon />
+                      <ArrowDownward />
                     ) : (
-                      <ArrowUpwardIcon />
+                      <ArrowUpward />
                     )}
                   </IconButton>
                 </Grid>
@@ -739,7 +737,7 @@ const JobApplications = (props) => {
         </Grid>
         <Grid item>
           <IconButton onClick={() => setFilterOpen(true)}>
-            <FilterListIcon />
+            <FilterList />
           </IconButton>
         </Grid>
         <Grid

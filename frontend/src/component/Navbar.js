@@ -2,10 +2,13 @@ import {
   AppBar,
   Toolbar,
   Typography,
+  IconButton,
   Button,
-  makeStyles,
-} from "@material-ui/core";
-import { useHistory } from "react-router-dom";
+  Theme
+} from "@mui/material";
+// import { makeStyles } from "@mui/styles";
+import { makeStyles } from "@mui/styles";
+import { useNavigate } from "react-router-dom";
 
 import isAuth, { userType } from "../lib/isAuth";
 
@@ -23,19 +26,22 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar = (props) => {
   const classes = useStyles();
-  let history = useHistory();
+  let navigate = useNavigate();
 
   const handleClick = (location) => {
     console.log(location);
-    history.push(location);
+    navigate(location);
   };
 
   return (
-    <AppBar position="fixed">
+    <AppBar position="static">
       <Toolbar>
-        <Typography variant="h6" className={classes.title}>
+        {/* <Typography variant="h6" className={classes.title}>
           Job Portal
-        </Typography>
+        </Typography> */}
+        <IconButton size="large" edge="start" color="inherit" aria-label="logo">
+
+        </IconButton>
         {isAuth() ? (
           userType() === "recruiter" ? (
             <>

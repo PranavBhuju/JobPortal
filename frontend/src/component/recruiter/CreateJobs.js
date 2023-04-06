@@ -3,14 +3,13 @@ import {
   Button,
   Grid,
   Typography,
-  Modal,
   Paper,
-  makeStyles,
   TextField,
   MenuItem,
-} from "@material-ui/core";
+  Chip
+} from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import axios from "axios";
-import ChipInput from "material-ui-chip-input";
 
 import { SetPopupContext } from "../../App";
 
@@ -132,7 +131,7 @@ const CreateJobs = (props) => {
                   />
                 </Grid>
                 <Grid item>
-                  <ChipInput
+                  <Chip
                     className={classes.inputBox}
                     label="Skills"
                     variant="outlined"

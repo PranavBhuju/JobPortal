@@ -5,7 +5,6 @@ import {
   Grid,
   IconButton,
   InputAdornment,
-  makeStyles,
   Paper,
   TextField,
   Typography,
@@ -15,15 +14,12 @@ import {
   FormGroup,
   MenuItem,
   Checkbox,
-} from "@material-ui/core";
-import { useHistory } from "react-router-dom";
-import Rating from "@material-ui/lab/Rating";
-import Pagination from "@material-ui/lab/Pagination";
+  Rating
+} from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import SearchIcon from "@material-ui/icons/Search";
-import FilterListIcon from "@material-ui/icons/FilterList";
-import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
-import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
+import {Search, FilterList, ArrowUpward, ArrowDownward} from "@mui/icons-material";
 
 import { SetPopupContext } from "../../App";
 
@@ -61,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
 
 const JobTile = (props) => {
   const classes = useStyles();
-  let history = useHistory();
+  let navigate = useNavigate();
   const { job, getData } = props;
   const setPopup = useContext(SetPopupContext);
 
@@ -79,7 +75,7 @@ const JobTile = (props) => {
   };
 
   const handleClick = (location) => {
-    history.push(location);
+    navigate(location);
   };
 
   const handleClose = () => {
@@ -542,9 +538,9 @@ const FilterPopup = (props) => {
                     }}
                   >
                     {searchOptions.sort.salary.desc ? (
-                      <ArrowDownwardIcon />
+                      <ArrowDownward />
                     ) : (
-                      <ArrowUpwardIcon />
+                      <ArrowUpward />
                     )}
                   </IconButton>
                 </Grid>
@@ -598,9 +594,9 @@ const FilterPopup = (props) => {
                     }}
                   >
                     {searchOptions.sort.duration.desc ? (
-                      <ArrowDownwardIcon />
+                      <ArrowDownward />
                     ) : (
-                      <ArrowUpwardIcon />
+                      <ArrowUpward />
                     )}
                   </IconButton>
                 </Grid>
@@ -654,9 +650,9 @@ const FilterPopup = (props) => {
                     }}
                   >
                     {searchOptions.sort.rating.desc ? (
-                      <ArrowDownwardIcon />
+                      <ArrowDownward />
                     ) : (
-                      <ArrowUpwardIcon />
+                      <ArrowUpward />
                     )}
                   </IconButton>
                 </Grid>
@@ -823,7 +819,7 @@ const MyJobs = (props) => {
                 endAdornment: (
                   <InputAdornment>
                     <IconButton onClick={() => getData()}>
-                      <SearchIcon />
+                      <Search />
                     </IconButton>
                   </InputAdornment>
                 ),
@@ -834,7 +830,7 @@ const MyJobs = (props) => {
           </Grid>
           <Grid item>
             <IconButton onClick={() => setFilterOpen(true)}>
-              <FilterListIcon />
+              <FilterList />
             </IconButton>
           </Grid>
         </Grid>

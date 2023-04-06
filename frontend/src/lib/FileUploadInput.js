@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
-import { Grid, Button, TextField, LinearProgress } from "@material-ui/core";
-import { CloudUpload } from "@material-ui/icons";
+import { Grid, Button, TextField, LinearProgress } from "@mui/material";
+import { CloudUpload } from "@mui/icons-material";
 import Axios from "axios";
 
 import { SetPopupContext } from "../App";

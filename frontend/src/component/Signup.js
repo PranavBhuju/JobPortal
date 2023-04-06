@@ -4,16 +4,15 @@ import {
   TextField,
   Button,
   Typography,
-  makeStyles,
   Paper,
   MenuItem,
   Input,
-} from "@material-ui/core";
+  Chip
+} from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import axios from "axios";
-import { Redirect } from "react-router-dom";
-import ChipInput from "material-ui-chip-input";
-import DescriptionIcon from "@material-ui/icons/Description";
-import FaceIcon from "@material-ui/icons/Face";
+import { Navigate } from "react-router-dom";
+import { Description, Face } from "@mui/icons-material";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/material.css";
 
@@ -321,7 +320,7 @@ const Login = (props) => {
   };
 
   return loggedin ? (
-    <Redirect to="/" />
+    <Navigate to="/" />
   ) : (
     <Paper elevation={3} className={classes.body}>
       <Grid container direction="column" spacing={4} alignItems="center">
@@ -398,7 +397,7 @@ const Login = (props) => {
               setEducation={setEducation}
             />
             <Grid item>
-              <ChipInput
+              <Chip
                 className={classes.inputBox}
                 label="Skills"
                 variant="outlined"
@@ -412,7 +411,7 @@ const Login = (props) => {
               <FileUploadInput
                 className={classes.inputBox}
                 label="Resume (.pdf)"
-                icon={<DescriptionIcon />}
+                icon={<Description />}
                 // value={files.resume}
                 // onChange={(event) =>
                 //   setFiles({
@@ -429,7 +428,7 @@ const Login = (props) => {
               <FileUploadInput
                 className={classes.inputBox}
                 label="Profile Photo (.jpg/.png)"
-                icon={<FaceIcon />}
+                icon={<Face />}
                 // value={files.profileImage}
                 // onChange={(event) =>
                 //   setFiles({

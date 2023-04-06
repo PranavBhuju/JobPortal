@@ -4,11 +4,11 @@ import {
   TextField,
   Button,
   Typography,
-  makeStyles,
   Paper,
-} from "@material-ui/core";
+} from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import axios from "axios";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 import PasswordInput from "../lib/PasswordInput";
 import EmailInput from "../lib/EmailInput";
@@ -104,7 +104,7 @@ const Login = (props) => {
   };
 
   return loggedin ? (
-    <Redirect to="/" />
+    <Navigate to="/" />
   ) : (
     <Paper elevation={3} className={classes.body}>
       <Grid container direction="column" spacing={4} alignItems="center">
