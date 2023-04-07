@@ -1,28 +1,53 @@
 import {
   AppBar,
   Toolbar,
-  Typography,
-  IconButton,
-  Button,
-  Theme
+  Box,
+  Link,
 } from "@mui/material";
-// import { makeStyles } from "@mui/styles";
 import { makeStyles } from "@mui/styles";
 import { useNavigate } from "react-router-dom";
 
 import isAuth, { userType } from "../lib/isAuth";
 
 const useStyles = makeStyles((theme) => ({
+  appBar: {
+    backgroundColor: "transparent  !important"
+  },
+  toolBar: {
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
   root: {
     flexGrow: 1,
   },
-  menuButton: {
+  menuToolLink: {
     marginRight: theme.spacing(2),
   },
   title: {
-    flexGrow: 1,
+    color: theme.palette.text.primary,
   },
 }));
+
+const LinkButton = (props) => (
+  <Link 
+    {...props}
+    variant="body1"
+    underline="none"
+    sx={{ 
+      color: "#006699",
+      fontWeight: "bold",
+      "&:hover": {
+        opacity: 0.8
+      },
+      padding: "5px 15px",
+      margin: "0 5px",
+      ...props.sx,
+    }} />
+);
+
+const Container = (props) => (
+  <Box sx={{ justifyContent: "flex-end", display: "flex", ...props.sx, flex: 1 }} {...props} />
+);
 
 const Navbar = (props) => {
   const classes = useStyles();
@@ -33,66 +58,67 @@ const Navbar = (props) => {
     navigate(location);
   };
 
-  return (
-    <AppBar position="static">
-      <Toolbar>
-        {/* <Typography variant="h6" className={classes.title}>
-          Job Portal
-        </Typography> */}
-        <IconButton size="large" edge="start" color="inherit" aria-label="logo">
+  const recruiterToolBar = () => (
+    <Container>
+      <LinkButton onClick={() => handleClick("/home")}>
+        Trang chủ
+      </LinkButton>
+      <LinkButton onClick={() => handleClick("/addjob")}>
+        Thêm
+      </LinkButton>
+      <LinkButton onClick={() => handleClick("/myjobs")}>
+        Việc làm của tôi
+      </LinkButton>
+      <LinkButton onClick={() => handleClick("/employees")}>
+        Ứng viên
+      </LinkButton>
+      <LinkButton onClick={() => handleClick("/profile")}>
+        Hồ sơ
+      </LinkButton>
+      <LinkButton onClick={() => handleClick("/logout")}>
+        Đăng xuất
+      </LinkButton>
+    </Container>
+  );
 
-        </IconButton>
+  const applicantToolBar = () => (
+    <Container>
+      <LinkButton onClick={() => handleClick("/home")}>
+        Trang chủ
+      </LinkButton>
+      <LinkButton onClick={() => handleClick("/applications")}>
+        Ứng tuyển
+      </LinkButton>
+      <LinkButton onClick={() => handleClick("/profile")}>
+        Hồ sơ
+      </LinkButton>
+      <LinkButton onClick={() => handleClick("/logout")}>
+        Đăng xuất
+      </LinkButton>
+    </Container>
+  );
+
+  const publicToolBar = () => (
+    <Container>
+      <LinkButton onClick={() => handleClick("/login")}>Đăng nhập</LinkButton>
+      <LinkButton 
+        sx={{
+          color: "white",
+          backgroundColor: "#006699",
+          borderRadius: "5px",
+        }}
+        onClick={() => handleClick("/signup")}>Đăng ký</LinkButton>
+    </Container>
+  );
+
+  return (
+    <AppBar position="static" elevation={0} className={classes.appBar}>
+      <Toolbar className={classes.toolBar}>
+        <Container />
+        <img src="logo.png" width={150} />
         {isAuth() ? (
-          userType() === "recruiter" ? (
-            <>
-              <Button color="inherit" onClick={() => handleClick("/home")}>
-                Home
-              </Button>
-              <Button color="inherit" onClick={() => handleClick("/addjob")}>
-                Add Jobs
-              </Button>
-              <Button color="inherit" onClick={() => handleClick("/myjobs")}>
-                My Jobs
-              </Button>
-              <Button color="inherit" onClick={() => handleClick("/employees")}>
-                Employees
-              </Button>
-              <Button color="inherit" onClick={() => handleClick("/profile")}>
-                Profile
-              </Button>
-              <Button color="inherit" onClick={() => handleClick("/logout")}>
-                Logout
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button color="inherit" onClick={() => handleClick("/home")}>
-                Home
-              </Button>
-              <Button
-                color="inherit"
-                onClick={() => handleClick("/applications")}
-              >
-                Applications
-              </Button>
-              <Button color="inherit" onClick={() => handleClick("/profile")}>
-                Profile
-              </Button>
-              <Button color="inherit" onClick={() => handleClick("/logout")}>
-                Logout
-              </Button>
-            </>
-          )
-        ) : (
-          <>
-            <Button color="inherit" onClick={() => handleClick("/login")}>
-              Login
-            </Button>
-            <Button color="inherit" onClick={() => handleClick("/signup")}>
-              Signup
-            </Button>
-          </>
-        )}
+          userType() === "recruiter" ? recruiterToolBar() : applicantToolBar()
+        ) : publicToolBar()}
       </Toolbar>
     </AppBar>
   );
