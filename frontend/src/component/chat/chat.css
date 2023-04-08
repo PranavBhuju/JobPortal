@@ -1,0 +1,24 @@
+.chat {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.inbox {
+    width: 90%;
+    height: 760px;
+    box-shadow: 0px 0px 4px black;
+    overflow-y: scroll;
+    display:flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.chat-panel {
+    position: fixed;
+    bottom: 0;
+    width: 50vw;
+    margin: 20px 0;
+}

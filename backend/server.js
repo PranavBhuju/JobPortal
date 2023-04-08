@@ -1,9 +1,12 @@
+const http = require('http')
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const passportConfig = require("./lib/passportConfig");
 const cors = require("cors");
 const fs = require("fs");
+const io = require('socket.io')
+const initSocket = require('./lib/socket')
 
 // MongoDB
 mongoose
@@ -29,6 +32,7 @@ if (!fs.existsSync("./public/profile")) {
 
 const app = express();
 const port = 4444;
+const server = http.createServer(app)
 
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
@@ -38,12 +42,20 @@ app.use(cors());
 app.use(express.json());
 app.use(passportConfig.initialize());
 
+initSocket(app, io(server,{
+  cors: {
+    origin: ["http://localhost:3000"],
+    methods: ['POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  }
+}));
+
 // Routing
 app.use("/auth", require("./routes/authRoutes"));
 app.use("/api", require("./routes/apiRoutes"));
 app.use("/upload", require("./routes/uploadRoutes"));
 app.use("/host", require("./routes/downloadRoutes"));
+app.use("/chat", require("./routes/chatRoutes"));
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server started on port ${port}!`);
 });

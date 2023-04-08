@@ -1,0 +1,26 @@
+.message {
+    margin: 4px;
+    padding: 2px;
+    display: flex;
+}
+
+.content {
+    max-width: 50%;
+    padding: 2px;
+    border-radius: 4px;
+    white-space:break-spaces
+}
+
+.you {
+    margin-left: auto;
+    background-color: rgb(48, 156, 215);
+    color: black;
+    text-align: right;
+}
+
+.not-you {
+    text-align: left;
+    color: white;
+    margin-right: auto;
+    background-color: rgb(92, 99, 103);
+}

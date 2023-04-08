@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from "react";
+import {useNavigate} from 'react-router-dom'
 import {
   Button,
   Chip,
@@ -46,6 +47,15 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
+  statusBlock: {
+    margin: "2px 0",
+    width: "100%",
+    height: "90%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    textTransform: "uppercase",
+  },
 }));
 
 const JobTile = (props) => {
@@ -55,6 +65,8 @@ const JobTile = (props) => {
 
   const [open, setOpen] = useState(false);
   const [sop, setSop] = useState("");
+
+  const navigate = useNavigate()
 
   const handleClose = () => {
     setOpen(false);
@@ -122,18 +134,34 @@ const JobTile = (props) => {
             ))}
           </Grid>
         </Grid>
-        <Grid item xs={3}>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            onClick={() => {
-              setOpen(true);
-            }}
-            disabled={userType() === "recruiter"}
-          >
-            Apply
-          </Button>
+
+        <Grid item container direction="column" xs={3}>
+          <Grid item xs>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.statusBlock}
+              onClick={() => {
+                setOpen(true);
+              }}
+              disabled={userType() === "recruiter"}
+            >
+              Apply
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              disabled={userType() === "recruiter"}
+              variant="contained"
+              color="secondary"
+              className={classes.statusBlock}
+              onClick={() => {
+                navigate(`/chat/${job.recruiter._id.toString()}`)
+              }}
+            >
+              Chat
+            </Button>
+          </Grid>
         </Grid>
       </Grid>
       <Modal open={open} onClose={handleClose} className={classes.popupDialog}>
@@ -494,15 +522,17 @@ const FilterPopup = (props) => {
             </Grid>
           </Grid>
 
-          <Grid item>
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ padding: "10px 50px" }}
-              onClick={() => getData()}
-            >
-              Apply
-            </Button>
+          <Grid item container direction="column" xs={3}>
+            <Grid item >
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ padding: "10px 50px" }}
+                onClick={() => getData()}
+              >
+                Apply
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
       </Paper>
@@ -611,7 +641,7 @@ const Home = (props) => {
         );
       })
       .catch((err) => {
-        console.log(err.response.data);
+        console.log(err);
         setPopup({
           open: true,
           severity: "error",

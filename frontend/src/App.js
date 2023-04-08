@@ -19,6 +19,8 @@ import MyJobs from "./component/recruiter/MyJobs";
 import JobApplications from "./component/recruiter/JobApplications";
 import AcceptedApplicants from "./component/recruiter/AcceptedApplicants";
 import MessagePopup from "./lib/MessagePopup";
+import Chat from "./component/chat/Chat";
+import ChatHome from './component/ChatHome'
 
 const useStyles = makeStyles((theme) => ({
   body: {
@@ -63,6 +65,8 @@ function App() {
                 <Route exact path="/myjobs" element={<MyJobs />} />
                 <Route exact path="/job/applications/:jobId" element={<JobApplications />} />
                 <Route exact path="/employees" element={<AcceptedApplicants />} />
+                <Route exact path="/chat/:id" element={<Chat />} />
+                <Route exact path="/chat" element={<ChatHome />} />
                 <Route element={<ErrorPage />} />
               </Routes>
             </Grid>

@@ -75,6 +75,9 @@ const Navbar = (props) => {
       <LinkButton onClick={() => handleClick("/profile")}>
         Hồ sơ
       </LinkButton>
+      <LinkButton onClick={() => handleClick("/chat")}>
+        Chat
+      </LinkButton>
       <LinkButton onClick={() => handleClick("/logout")}>
         Đăng xuất
       </LinkButton>
@@ -91,6 +94,9 @@ const Navbar = (props) => {
       </LinkButton>
       <LinkButton onClick={() => handleClick("/profile")}>
         Hồ sơ
+      </LinkButton>
+      <LinkButton onClick={() => handleClick("/chat")}>
+        Chat
       </LinkButton>
       <LinkButton onClick={() => handleClick("/logout")}>
         Đăng xuất

@@ -16,6 +16,7 @@ import { SetPopupContext } from "../App";
 
 import apiList from "../lib/apiList";
 import isAuth from "../lib/isAuth";
+import socket from '../lib/socket'
 
 const useStyles = makeStyles((theme) => ({
   body: {
