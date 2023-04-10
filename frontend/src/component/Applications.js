@@ -14,7 +14,8 @@ import {
   FormGroup,
   MenuItem,
   Checkbox,
-  Rating
+  Rating,
+  Link
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import axios from "axios";
@@ -129,63 +130,63 @@ const ApplicationTile = (props) => {
     finished: "#4EA5D9",
   };
 
+  const statusLabel = {
+    applied: "Đã ứng tuyển",
+    shortlisted: "Đang tuyển chọn",
+    accepted: "Đã được chấp nhận",
+    rejected: "Đã bị từ chối",
+    deleted: "Đã bị xóa",
+    cancelled: "Đã bị hủy",
+    finished: "Đã hoàn thành",
+  };
+
+  const currencyFormatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 0
+  });
+
   return (
-    <Paper className={classes.jobTileOuter} elevation={3}>
-      <Grid container>
-        <Grid container item xs={9} spacing={1} direction="column">
+    <Grid item>
+      <Paper elevation={1} sx={{ borderRadius: "20px", padding: "15px", maxWidth: "30wh" }}>
+        <Grid container item spacing={1} direction="column" alignItems="center">
           <Grid item>
             <Typography variant="h5">{application.job.title}</Typography>
           </Grid>
-          <Grid item>Posted By: {application.recruiter.name}</Grid>
-          <Grid item>Role : {application.job.jobType}</Grid>
-          <Grid item>Salary : &#8377; {application.job.salary} per month</Grid>
-          <Grid item>
-            Duration :{" "}
-            {application.job.duration !== 0
-              ? `${application.job.duration} month`
-              : `Flexible`}
-          </Grid>
-          <Grid item>
-            {application.job.skillsets.map((skill) => (
-              <Chip label={skill} style={{ marginRight: "2px" }} />
-            ))}
-          </Grid>
-          <Grid item>Applied On: {appliedOn.toLocaleDateString()}</Grid>
+          <Grid item>Nhà tuyển dụng : {application.recruiter.name}</Grid>
+          <Grid item>Hình thức : {application.job.jobType}</Grid>
+          <Grid item>Mức lương : {currencyFormatter.format(application.job.salary)} / tháng</Grid>
+          <Grid item>Thời gian ứng tuyển: {appliedOn.toLocaleDateString('vi-VN')}</Grid>
           {application.status === "accepted" ||
-          application.status === "finished" ? (
-            <Grid item>Joined On: {joinedOn.toLocaleDateString()}</Grid>
+            application.status === "finished" ? (
+            <Grid item>Thời gian bắt đầu công việc: {joinedOn.toLocaleDateString('vi-VN')}</Grid>
           ) : null}
-        </Grid>
-        <Grid item container direction="column" xs={3}>
-          <Grid item xs>
-            <Paper
-              className={classes.statusBlock}
-              style={{
-                background: colorSet[application.status],
-                color: "#ffffff",
-              }}
-            >
-              {application.status}
-            </Paper>
+          <Grid item>
+            Trạng thái: {application.status ? <span style={{ color: colorSet[application.status], fontWeight: 500 }}>{statusLabel[application.status]}</span> : null}
           </Grid>
-          {application.status === "accepted" ||
-          application.status === "finished" ? (
-            <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.statusBlock}
-                onClick={() => {
-                  fetchRating();
-                  setOpen(true);
-                }}
-              >
-                Rate Job
-              </Button>
-            </Grid>
-          ) : null}
+
+          <Grid container item direction="row" alignItems="center" justifyContent="space-around">
+            <Link>Chi tiết</Link>
+            {application.status === "accepted" ||
+              application.status === "finished" ? (
+              <Grid item>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.statusBlock}
+                  onClick={() => {
+                    fetchRating();
+                    setOpen(true);
+                  }}
+                >
+                  Đánh giá
+                </Button>
+              </Grid>
+            ) : null}
+          </Grid>
         </Grid>
-      </Grid>
+      </Paper>
+
       <Modal open={open} onClose={handleClose} className={classes.popupDialog}>
         <Paper
           style={{
@@ -200,6 +201,7 @@ const ApplicationTile = (props) => {
         >
           <Rating
             name="simple-controlled"
+            size="large"
             style={{ marginBottom: "30px" }}
             value={rating === -1 ? null : rating}
             onChange={(event, newValue) => {
@@ -212,11 +214,11 @@ const ApplicationTile = (props) => {
             style={{ padding: "10px 50px" }}
             onClick={() => changeRating()}
           >
-            Submit
+            Xác nhận
           </Button>
         </Paper>
       </Modal>
-    </Paper>
+    </Grid>
   );
 };
 
@@ -240,7 +242,6 @@ const Applications = (props) => {
         setApplications(response.data);
       })
       .catch((err) => {
-        // console.log(err.response);
         console.log(err.response.data);
         setPopup({
           open: true,
@@ -259,16 +260,20 @@ const Applications = (props) => {
       style={{ padding: "30px", minHeight: "93vh" }}
     >
       <Grid item>
-        <Typography variant="h2">Applications</Typography>
+        <Typography variant="h3" padding={5}>Việc làm đã ứng tuyển</Typography>
       </Grid>
       <Grid
         container
-        item
-        xs
-        direction="column"
-        style={{ width: "100%" }}
-        alignItems="stretch"
-        justify="center"
+        // item
+        // xs
+        // direction="column"
+        // style={{ width: "100%" }}
+        // alignItems="stretch"
+        // justify="center"
+        marginY={4}
+        gap={4}
+        columns={2}
+        justifyContent="space-around"
       >
         {applications.length > 0 ? (
           applications.map((obj) => (
@@ -278,7 +283,7 @@ const Applications = (props) => {
           ))
         ) : (
           <Typography variant="h5" style={{ textAlign: "center" }}>
-            No Applications Found
+            Bạn chưa ứng tuyển vào công việc nào
           </Typography>
         )}
       </Grid>

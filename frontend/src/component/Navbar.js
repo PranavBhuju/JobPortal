@@ -11,7 +11,8 @@ import isAuth, { userType } from "../lib/isAuth";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
-    backgroundColor: "transparent  !important"
+    backgroundColor: "transparent  !important",
+    zIndex: 999,
   },
   toolBar: {
     alignItems: "center",
@@ -115,7 +116,7 @@ const Navbar = (props) => {
     <AppBar position="static" elevation={0} className={classes.appBar}>
       <Toolbar className={classes.toolBar}>
         <Container />
-        <img src="logo.png" width={150} />
+        <Box component="img" src="logo.png" width={150} onClick={() => handleClick("/")} />
         {isAuth() ? (
           userType() === "recruiter" ? recruiterToolBar() : applicantToolBar()
         ) : publicToolBar()}

@@ -1,4 +1,5 @@
 import { createTheme } from "@mui/material";
+import { viVN } from '@mui/material/locale';
 
 export const lightTheme = createTheme({
     palette: {
@@ -70,4 +71,4 @@ export const lightTheme = createTheme({
     shape: {
         borderRadius: 4,
     },
-});
+}, viVN);

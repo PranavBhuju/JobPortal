@@ -572,7 +572,7 @@ const ApplicationTile = (props) => {
               readOnly
             />
           </Grid>
-          <Grid item>Applied On: {appliedOn.toLocaleDateString()}</Grid>
+          <Grid item>Applied On: {appliedOn.toLocaleDateString('vi-VN')}</Grid>
           <Grid item>
             Education:{" "}
             {application.jobApplicant.education

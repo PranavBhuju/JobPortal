@@ -5,6 +5,7 @@ import {
   Button,
   Typography,
   Paper,
+  Box,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import axios from "axios";
@@ -20,12 +21,14 @@ import isAuth from "../lib/isAuth";
 const useStyles = makeStyles((theme) => ({
   body: {
     padding: "60px 60px",
+    flexGrow: 1
   },
   inputBox: {
-    width: "300px",
+    width: "400px",
   },
   submitButton: {
-    width: "300px",
+    width: "400px",
+    borderRadius: "50px !important"
   },
 }));
 
@@ -82,7 +85,7 @@ const Login = (props) => {
           setPopup({
             open: true,
             severity: "success",
-            message: "Logged in successfully",
+            message: "Đăng nhập thành công",
           });
           console.log(response);
         })
@@ -98,19 +101,19 @@ const Login = (props) => {
       setPopup({
         open: true,
         severity: "error",
-        message: "Incorrect Input",
+        message: "Thông tin không chính xác",
       });
     }
   };
 
   return loggedin ? (
-    <Navigate to="/" />
+    <Navigate to="/home" />
   ) : (
-    <Paper elevation={3} className={classes.body}>
-      <Grid container direction="column" spacing={4} alignItems="center">
+    <Grid container flexDirection="row" flexWrap="nowrap" flexGrow={1} padding="0 5em">
+      <Grid container margin="20vh 0" width="50%" direction="column" spacing={4} alignItems="center">
         <Grid item>
-          <Typography variant="h3" component="h2">
-            Login
+          <Typography variant="h4" fontWeight={500} color="primary">
+            Đăng nhập
           </Typography>
         </Grid>
         <Grid item>
@@ -125,7 +128,7 @@ const Login = (props) => {
         </Grid>
         <Grid item>
           <PasswordInput
-            label="Password"
+            label="Mật khẩu"
             value={loginDetails.password}
             onChange={(event) => handleInput("password", event.target.value)}
             className={classes.inputBox}
@@ -138,11 +141,14 @@ const Login = (props) => {
             onClick={() => handleLogin()}
             className={classes.submitButton}
           >
-            Login
+            Xác nhận
           </Button>
         </Grid>
       </Grid>
-    </Paper>
+      <Grid container width="50%" margin="auto" alignItems="center" spacing={4}>
+        <Box component="img" src="applicant_abstract.jpg" />
+      </Grid>
+    </Grid>
   );
 };
 
