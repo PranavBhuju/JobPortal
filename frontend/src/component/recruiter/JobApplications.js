@@ -1,26 +1,22 @@
 import { useState, useEffect, useContext } from "react";
 import {
   Button,
-  Chip,
   Grid,
   IconButton,
-  InputAdornment,
   Paper,
-  TextField,
   Typography,
   Modal,
-  Slider,
   FormControlLabel,
-  FormGroup,
-  MenuItem,
   Checkbox,
   Avatar,
-  Rating
+  Rating,
+  Divider,
+  Box
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import {FilterList, ArrowUpward, ArrowDownward} from "@mui/icons-material";
+import { ArrowUpward, ArrowDownward, SentimentDissatisfied, SentimentVeryDissatisfiedRounded, SentimentVeryDissatisfied, } from "@mui/icons-material";
 
 import { SetPopupContext } from "../../App";
 
@@ -31,16 +27,11 @@ const useStyles = makeStyles((theme) => ({
     height: "inherit",
   },
   statusBlock: {
-    width: "100%",
-    height: "100%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
     textTransform: "uppercase",
   },
   jobTileOuter: {
     padding: "30px",
-    margin: "20px 0",
+    margin: "10px 0",
     boxSizing: "border-box",
     width: "100%",
   },
@@ -56,284 +47,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FilterPopup = (props) => {
-  const classes = useStyles();
-  const { open, handleClose, searchOptions, setSearchOptions, getData } = props;
-  return (
-    <Modal open={open} onClose={handleClose} className={classes.popupDialog}>
-      <Paper
-        style={{
-          padding: "50px",
-          outline: "none",
-          minWidth: "50%",
-        }}
-      >
-        <Grid container direction="column" alignItems="center" spacing={3}>
-          <Grid container item alignItems="center">
-            <Grid item xs={3}>
-              Application Status
-            </Grid>
-            <Grid
-              container
-              item
-              xs={9}
-              justify="space-around"
-              // alignItems="center"
-            >
-              <Grid item>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      name="rejected"
-                      checked={searchOptions.status.rejected}
-                      onChange={(event) => {
-                        setSearchOptions({
-                          ...searchOptions,
-                          status: {
-                            ...searchOptions.status,
-                            [event.target.name]: event.target.checked,
-                          },
-                        });
-                      }}
-                    />
-                  }
-                  label="Rejected"
-                />
-              </Grid>
-              <Grid item>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      name="applied"
-                      checked={searchOptions.status.applied}
-                      onChange={(event) => {
-                        setSearchOptions({
-                          ...searchOptions,
-                          status: {
-                            ...searchOptions.status,
-                            [event.target.name]: event.target.checked,
-                          },
-                        });
-                      }}
-                    />
-                  }
-                  label="Applied"
-                />
-              </Grid>
-              <Grid item>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      name="shortlisted"
-                      checked={searchOptions.status.shortlisted}
-                      onChange={(event) => {
-                        setSearchOptions({
-                          ...searchOptions,
-                          status: {
-                            ...searchOptions.status,
-                            [event.target.name]: event.target.checked,
-                          },
-                        });
-                      }}
-                    />
-                  }
-                  label="Shortlisted"
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid container item alignItems="center">
-            <Grid item xs={3}>
-              Sort
-            </Grid>
-            <Grid item container direction="row" xs={9}>
-              <Grid
-                item
-                container
-                xs={4}
-                justify="space-around"
-                alignItems="center"
-                style={{ border: "1px solid #D1D1D1", borderRadius: "5px" }}
-              >
-                <Grid item>
-                  <Checkbox
-                    name="name"
-                    checked={searchOptions.sort["jobApplicant.name"].status}
-                    onChange={(event) =>
-                      setSearchOptions({
-                        ...searchOptions,
-                        sort: {
-                          ...searchOptions.sort,
-                          "jobApplicant.name": {
-                            ...searchOptions.sort["jobApplicant.name"],
-                            status: event.target.checked,
-                          },
-                        },
-                      })
-                    }
-                    id="name"
-                  />
-                </Grid>
-                <Grid item>
-                  <label for="name">
-                    <Typography>Name</Typography>
-                  </label>
-                </Grid>
-                <Grid item>
-                  <IconButton
-                    disabled={!searchOptions.sort["jobApplicant.name"].status}
-                    onClick={() => {
-                      setSearchOptions({
-                        ...searchOptions,
-                        sort: {
-                          ...searchOptions.sort,
-                          "jobApplicant.name": {
-                            ...searchOptions.sort["jobApplicant.name"],
-                            desc: !searchOptions.sort["jobApplicant.name"].desc,
-                          },
-                        },
-                      });
-                    }}
-                  >
-                    {searchOptions.sort["jobApplicant.name"].desc ? (
-                      <ArrowDownward />
-                    ) : (
-                      <ArrowUpward />
-                    )}
-                  </IconButton>
-                </Grid>
-              </Grid>
-              <Grid
-                item
-                container
-                xs={4}
-                justify="space-around"
-                alignItems="center"
-                style={{ border: "1px solid #D1D1D1", borderRadius: "5px" }}
-              >
-                <Grid item>
-                  <Checkbox
-                    name="dateOfApplication"
-                    checked={searchOptions.sort.dateOfApplication.status}
-                    onChange={(event) =>
-                      setSearchOptions({
-                        ...searchOptions,
-                        sort: {
-                          ...searchOptions.sort,
-                          dateOfApplication: {
-                            ...searchOptions.sort.dateOfApplication,
-                            status: event.target.checked,
-                          },
-                        },
-                      })
-                    }
-                    id="dateOfApplication"
-                  />
-                </Grid>
-                <Grid item>
-                  <label for="dateOfApplication">
-                    <Typography>Date of Application</Typography>
-                  </label>
-                </Grid>
-                <Grid item>
-                  <IconButton
-                    disabled={!searchOptions.sort.dateOfApplication.status}
-                    onClick={() => {
-                      setSearchOptions({
-                        ...searchOptions,
-                        sort: {
-                          ...searchOptions.sort,
-                          dateOfApplication: {
-                            ...searchOptions.sort.dateOfApplication,
-                            desc: !searchOptions.sort.dateOfApplication.desc,
-                          },
-                        },
-                      });
-                    }}
-                  >
-                    {searchOptions.sort.dateOfApplication.desc ? (
-                      <ArrowDownward />
-                    ) : (
-                      <ArrowUpward />
-                    )}
-                  </IconButton>
-                </Grid>
-              </Grid>
-              <Grid
-                item
-                container
-                xs={4}
-                justify="space-around"
-                alignItems="center"
-                style={{ border: "1px solid #D1D1D1", borderRadius: "5px" }}
-              >
-                <Grid item>
-                  <Checkbox
-                    name="rating"
-                    checked={searchOptions.sort["jobApplicant.rating"].status}
-                    onChange={(event) =>
-                      setSearchOptions({
-                        ...searchOptions,
-                        sort: {
-                          ...searchOptions.sort,
-                          "jobApplicant.rating": {
-                            ...searchOptions.sort[["jobApplicant.rating"]],
-                            status: event.target.checked,
-                          },
-                        },
-                      })
-                    }
-                    id="rating"
-                  />
-                </Grid>
-                <Grid item>
-                  <label for="rating">
-                    <Typography>Rating</Typography>
-                  </label>
-                </Grid>
-                <Grid item>
-                  <IconButton
-                    disabled={!searchOptions.sort["jobApplicant.rating"].status}
-                    onClick={() => {
-                      setSearchOptions({
-                        ...searchOptions,
-                        sort: {
-                          ...searchOptions.sort,
-                          "jobApplicant.rating": {
-                            ...searchOptions.sort["jobApplicant.rating"],
-                            desc: !searchOptions.sort["jobApplicant.rating"]
-                              .desc,
-                          },
-                        },
-                      });
-                    }}
-                  >
-                    {searchOptions.sort["jobApplicant.rating"].desc ? (
-                      <ArrowDownward />
-                    ) : (
-                      <ArrowUpward />
-                    )}
-                  </IconButton>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-
-          <Grid item>
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ padding: "10px 50px" }}
-              onClick={() => getData()}
-            >
-              Apply
-            </Button>
-          </Grid>
-        </Grid>
-      </Paper>
-    </Modal>
-  );
-};
 
 const ApplicationTile = (props) => {
   const classes = useStyles();
@@ -423,7 +136,7 @@ const ApplicationTile = (props) => {
   const buttonSet = {
     applied: (
       <>
-        <Grid item xs>
+        <Grid item>
           <Button
             className={classes.statusBlock}
             style={{
@@ -435,7 +148,7 @@ const ApplicationTile = (props) => {
             Shortlist
           </Button>
         </Grid>
-        <Grid item xs>
+        <Grid item>
           <Button
             className={classes.statusBlock}
             style={{
@@ -451,7 +164,7 @@ const ApplicationTile = (props) => {
     ),
     shortlisted: (
       <>
-        <Grid item xs>
+        <Grid item>
           <Button
             className={classes.statusBlock}
             style={{
@@ -463,7 +176,7 @@ const ApplicationTile = (props) => {
             Accept
           </Button>
         </Grid>
-        <Grid item xs>
+        <Grid item>
           <Button
             className={classes.statusBlock}
             style={{
@@ -479,133 +192,134 @@ const ApplicationTile = (props) => {
     ),
     rejected: (
       <>
-        <Grid item xs>
-          <Paper
+        <Grid item>
+          <Button
             className={classes.statusBlock}
+            variant="text"
+            disableRipple
             style={{
-              background: colorSet["rejected"],
-              color: "#ffffff",
+              color: colorSet["rejected"],
             }}
           >
             Rejected
-          </Paper>
+          </Button>
         </Grid>
       </>
     ),
     accepted: (
       <>
-        <Grid item xs>
-          <Paper
+        <Grid item>
+          <Button
             className={classes.statusBlock}
+            disableRipple
             style={{
-              background: colorSet["accepted"],
-              color: "#ffffff",
+              color: colorSet["accepted"],
             }}
           >
             Accepted
-          </Paper>
+          </Button>
         </Grid>
       </>
     ),
     cancelled: (
       <>
-        <Grid item xs>
-          <Paper
+        <Grid item>
+          <Button
             className={classes.statusBlock}
+            disableRipple
             style={{
-              background: colorSet["cancelled"],
-              color: "#ffffff",
+              color: colorSet["cancelled"],
             }}
           >
             Cancelled
-          </Paper>
+          </Button>
         </Grid>
       </>
     ),
     finished: (
       <>
-        <Grid item xs>
-          <Paper
+        <Grid item>
+          <Button
             className={classes.statusBlock}
+            disableRipple
             style={{
               background: colorSet["finished"],
               color: "#ffffff",
             }}
           >
             Finished
-          </Paper>
+          </Button>
         </Grid>
       </>
     ),
   };
 
   return (
-    <Paper className={classes.jobTileOuter} elevation={3}>
-      <Grid container>
-        <Grid
-          item
-          xs={2}
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Avatar
-            src={`${server}${application.jobApplicant.profile}`}
-            className={classes.avatar}
-          />
+    <Paper
+      className={classes.jobTileOuter}
+      elevation={0}
+      sx={{ borderRadius: "20px" }}
+    >
+      <Grid container direction="column">
+        <Grid container direction="row" flexWrap="nowrap">
+          <Grid container>
+            {/* Avatar and Name */}
+            <Grid container item alignItems="center" gap={4}>
+              <Grid item>
+                <Avatar
+                  src={`${server}${application.jobApplicant.profile}`}
+                  className={classes.avatar}
+                />
+              </Grid>
+
+              <Grid item>
+                <Typography variant="h5">
+                  {application.jobApplicant.name}
+                </Typography>
+                <Rating
+                  value={
+                    application.jobApplicant.rating !== -1
+                      ? application.jobApplicant.rating
+                      : null
+                  }
+                  readOnly
+                />
+              </Grid>
+            </Grid>
+            {/* Other Info */}
+            <Grid container item direction="column" spacing={1}>
+              <Grid item>Applied On: {appliedOn.toLocaleDateString('vi-VN')}</Grid>
+              <Grid item>
+                Education:{" "}
+                {application.jobApplicant.education
+                  .map((edu) => {
+                    return `${edu.institutionName} (${edu.startYear}-${edu.endYear ? edu.endYear : "Ongoing"
+                      })`;
+                  })
+                  .join(", ")}
+              </Grid>
+              <Grid item>
+                SOP: {application.sop !== "" ? application.sop : "Not Submitted"}
+              </Grid>
+            </Grid>
+          </Grid>
+
+          <Grid container justifyContent="flex-end" alignItems="flex-start">
+            <Grid item>
+              <Button
+                variant="text"
+                className={classes.statusBlock}
+                color="primary"
+                onClick={() => getResume()}
+              >
+                Xem CV
+              </Button>
+            </Grid>
+          </Grid>
         </Grid>
-        <Grid container item xs={7} spacing={1} direction="column">
-          <Grid item>
-            <Typography variant="h5">
-              {application.jobApplicant.name}
-            </Typography>
-          </Grid>
-          <Grid item>
-            <Rating
-              value={
-                application.jobApplicant.rating !== -1
-                  ? application.jobApplicant.rating
-                  : null
-              }
-              readOnly
-            />
-          </Grid>
-          <Grid item>Applied On: {appliedOn.toLocaleDateString()}</Grid>
-          <Grid item>
-            Education:{" "}
-            {application.jobApplicant.education
-              .map((edu) => {
-                return `${edu.institutionName} (${edu.startYear}-${
-                  edu.endYear ? edu.endYear : "Ongoing"
-                })`;
-              })
-              .join(", ")}
-          </Grid>
-          <Grid item>
-            SOP: {application.sop !== "" ? application.sop : "Not Submitted"}
-          </Grid>
-          <Grid item>
-            {application.jobApplicant.skills.map((skill) => (
-              <Chip label={skill} style={{ marginRight: "2px" }} />
-            ))}
-          </Grid>
-        </Grid>
-        <Grid item container direction="column" xs={3}>
-          <Grid item>
-            <Button
-              variant="contained"
-              className={classes.statusBlock}
-              color="primary"
-              onClick={() => getResume()}
-            >
-              Download Resume
-            </Button>
-          </Grid>
-          <Grid item container xs>
-            {buttonSet[application.status]}
-          </Grid>
+
+        <Grid container direction="row" alignItems="center" justifyContent="flex-end" gap={5}>
+          {buttonSet[application.status]}
         </Grid>
       </Grid>
       <Modal open={open} onClose={handleClose} className={classes.popupDialog}>
@@ -624,7 +338,7 @@ const ApplicationTile = (props) => {
             variant="contained"
             color="primary"
             style={{ padding: "10px 50px" }}
-            // onClick={() => changeRating()}
+          // onClick={() => changeRating()}
           >
             Submit
           </Button>
@@ -663,7 +377,7 @@ const JobApplications = (props) => {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [searchOptions]);
 
   const getData = () => {
     let searchParams = [];
@@ -676,6 +390,9 @@ const JobApplications = (props) => {
     }
     if (searchOptions.status.shortlisted) {
       searchParams = [...searchParams, `status=shortlisted`];
+    }
+    if (searchOptions.status.accepted) {
+      searchParams = [...searchParams, `status=accepted`];
     }
 
     let asc = [],
@@ -723,56 +440,289 @@ const JobApplications = (props) => {
       });
   };
 
+  const FilterBar = () => (
+    <Grid container direction="column" width="320px" paddingLeft={2}>
+      <Typography variant="h6">Trạng thái</Typography>
+      <Grid
+        container
+        direction="column"
+        padding="0 20px"
+      >
+        <Grid item>
+          <FormControlLabel
+            control={
+              <Checkbox
+                name="accepted"
+                checked={searchOptions.status.accepted}
+                onChange={(event) => {
+                  setSearchOptions({
+                    ...searchOptions,
+                    status: {
+                      ...searchOptions.status,
+                      [event.target.name]: event.target.checked,
+                    },
+                  });
+                }}
+              />
+            }
+            label="Accepted"
+          />
+        </Grid>
+        <Grid item>
+          <FormControlLabel
+            control={
+              <Checkbox
+                name="rejected"
+                checked={searchOptions.status.rejected}
+                onChange={(event) => {
+                  setSearchOptions({
+                    ...searchOptions,
+                    status: {
+                      ...searchOptions.status,
+                      [event.target.name]: event.target.checked,
+                    },
+                  });
+                }}
+              />
+            }
+            label="Rejected"
+          />
+        </Grid>
+        <Grid item>
+          <FormControlLabel
+            control={
+              <Checkbox
+                name="applied"
+                checked={searchOptions.status.applied}
+                onChange={(event) => {
+                  setSearchOptions({
+                    ...searchOptions,
+                    status: {
+                      ...searchOptions.status,
+                      [event.target.name]: event.target.checked,
+                    },
+                  });
+                }}
+              />
+            }
+            label="Applied"
+          />
+        </Grid>
+        <Grid item>
+          <FormControlLabel
+            control={
+              <Checkbox
+                name="shortlisted"
+                checked={searchOptions.status.shortlisted}
+                onChange={(event) => {
+                  setSearchOptions({
+                    ...searchOptions,
+                    status: {
+                      ...searchOptions.status,
+                      [event.target.name]: event.target.checked,
+                    },
+                  });
+                }}
+              />
+            }
+            label="Shortlisted"
+          />
+        </Grid>
+      </Grid>
+
+      <Divider sx={{ margin: "20px 0" }}></Divider>
+      <Typography variant="h6">Sắp xếp</Typography>
+      <Grid container direction="column" padding="0 10px">
+        <Grid
+          item
+          container
+          justify="space-around"
+          alignItems="center"
+        >
+          <Grid item>
+            <Checkbox
+              name="name"
+              checked={searchOptions.sort["jobApplicant.name"].status}
+              onChange={(event) =>
+                setSearchOptions({
+                  ...searchOptions,
+                  sort: {
+                    ...searchOptions.sort,
+                    "jobApplicant.name": {
+                      ...searchOptions.sort["jobApplicant.name"],
+                      status: event.target.checked,
+                    },
+                  },
+                })
+              }
+              id="name"
+            />
+          </Grid>
+          <Grid item>
+            <label for="name">
+              <Typography>Name</Typography>
+            </label>
+          </Grid>
+          <Grid item>
+            <IconButton
+              disabled={!searchOptions.sort["jobApplicant.name"].status}
+              onClick={() => {
+                setSearchOptions({
+                  ...searchOptions,
+                  sort: {
+                    ...searchOptions.sort,
+                    "jobApplicant.name": {
+                      ...searchOptions.sort["jobApplicant.name"],
+                      desc: !searchOptions.sort["jobApplicant.name"].desc,
+                    },
+                  },
+                });
+              }}
+            >
+              {searchOptions.sort["jobApplicant.name"].desc ? (
+                <ArrowDownward />
+              ) : (
+                <ArrowUpward />
+              )}
+            </IconButton>
+          </Grid>
+        </Grid>
+        <Grid item container alignItems="center">
+          <Grid item>
+            <Checkbox
+              name="dateOfApplication"
+              checked={searchOptions.sort.dateOfApplication.status}
+              onChange={(event) =>
+                setSearchOptions({
+                  ...searchOptions,
+                  sort: {
+                    ...searchOptions.sort,
+                    dateOfApplication: {
+                      ...searchOptions.sort.dateOfApplication,
+                      status: event.target.checked,
+                    },
+                  },
+                })
+              }
+              id="dateOfApplication"
+            />
+          </Grid>
+          <Grid item>
+            <label for="dateOfApplication">
+              <Typography>Date of Application</Typography>
+            </label>
+          </Grid>
+          <Grid item>
+            <IconButton
+              disabled={!searchOptions.sort.dateOfApplication.status}
+              onClick={() => {
+                setSearchOptions({
+                  ...searchOptions,
+                  sort: {
+                    ...searchOptions.sort,
+                    dateOfApplication: {
+                      ...searchOptions.sort.dateOfApplication,
+                      desc: !searchOptions.sort.dateOfApplication.desc,
+                    },
+                  },
+                });
+              }}
+            >
+              {searchOptions.sort.dateOfApplication.desc ? (
+                <ArrowDownward />
+              ) : (
+                <ArrowUpward />
+              )}
+            </IconButton>
+          </Grid>
+        </Grid>
+        <Grid item container alignItems="center">
+          <Grid item>
+            <Checkbox
+              name="rating"
+              checked={searchOptions.sort["jobApplicant.rating"].status}
+              onChange={(event) =>
+                setSearchOptions({
+                  ...searchOptions,
+                  sort: {
+                    ...searchOptions.sort,
+                    "jobApplicant.rating": {
+                      ...searchOptions.sort[["jobApplicant.rating"]],
+                      status: event.target.checked,
+                    },
+                  },
+                })
+              }
+              id="rating"
+            />
+          </Grid>
+          <Grid item>
+            <label for="rating">
+              <Typography>Rating</Typography>
+            </label>
+          </Grid>
+          <Grid item>
+            <IconButton
+              disabled={!searchOptions.sort["jobApplicant.rating"].status}
+              onClick={() => {
+                setSearchOptions({
+                  ...searchOptions,
+                  sort: {
+                    ...searchOptions.sort,
+                    "jobApplicant.rating": {
+                      ...searchOptions.sort["jobApplicant.rating"],
+                      desc: !searchOptions.sort["jobApplicant.rating"]
+                        .desc,
+                    },
+                  },
+                });
+              }}
+            >
+              {searchOptions.sort["jobApplicant.rating"].desc ? (
+                <ArrowDownward />
+              ) : (
+                <ArrowUpward />
+              )}
+            </IconButton>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid >
+  );
+
   return (
     <>
+      {FilterBar()}
       <Grid
         container
         item
         direction="column"
-        alignItems="center"
-        style={{ padding: "30px", minHeight: "93vh" }}
+        style={{ padding: "0 30px", minHeight: "93vh" }}
       >
-        <Grid item>
-          <Typography variant="h2">Applications</Typography>
-        </Grid>
-        <Grid item>
-          <IconButton onClick={() => setFilterOpen(true)}>
-            <FilterList />
-          </IconButton>
-        </Grid>
         <Grid
           container
           item
           xs
           direction="column"
           style={{ width: "100%" }}
-          alignItems="stretch"
-          justify="center"
+          alignItems="center"
         >
           {applications.length > 0 ? (
             applications.map((obj) => (
-              <Grid item>
-                {/* {console.log(obj)} */}
-                <ApplicationTile application={obj} getData={getData} />
-              </Grid>
+              // <Grid item>
+              <ApplicationTile application={obj} getData={getData} />
+              // </Grid>
             ))
           ) : (
-            <Typography variant="h5" style={{ textAlign: "center" }}>
-              No Applications Found
-            </Typography>
+            <Box display="flex" flexDirection="column" alignItems="center" marginY="auto">
+              <SentimentVeryDissatisfied fontSize="large" />
+              <Typography variant="h5" style={{ textAlign: "center" }}>
+                Không tìm thấy đơn ứng tuyển nào...
+              </Typography>
+            </Box>
           )}
         </Grid>
       </Grid>
-      <FilterPopup
-        open={filterOpen}
-        searchOptions={searchOptions}
-        setSearchOptions={setSearchOptions}
-        handleClose={() => setFilterOpen(false)}
-        getData={() => {
-          getData();
-          setFilterOpen(false);
-        }}
-      />
     </>
   );
 };

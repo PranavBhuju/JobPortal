@@ -8,6 +8,7 @@ import {
   MenuItem,
   Chip
 } from "@mui/material";
+import { NumericFormat } from 'react-number-format';
 import { makeStyles } from "@mui/styles";
 import axios from "axios";
 
@@ -90,174 +91,119 @@ const CreateJobs = (props) => {
   };
 
   return (
-    <>
-      <Grid
-        container
-        item
-        direction="column"
-        alignItems="center"
-        style={{ padding: "30px", minHeight: "93vh", width: "" }}
-      >
-        <Grid item>
-          <Typography variant="h2">Add Job</Typography>
-        </Grid>
-        <Grid item container xs direction="column" justify="center">
-          <Grid item>
-            <Paper
-              style={{
-                padding: "20px",
-                outline: "none",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Grid
-                container
-                direction="column"
-                alignItems="stretch"
-                spacing={3}
+    <Grid container item xs direction="column" sx={{paddingTop: "50px"}}>
+      <Grid item>
+        <Paper
+          style={{
+            padding: "20px",
+            outline: "none",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Grid
+            container
+            direction="column"
+            alignItems="stretch"
+            spacing={3}
+          >
+            <Grid item>
+              <TextField
+                label="Vị trí tuyển dụng"
+                value={jobDetails.title}
+                onChange={(event) =>
+                  handleInput("title", event.target.value)
+                }
+                variant="outlined"
+                fullWidth
+              />
+            </Grid>
+            <Grid item>
+              <TextField
+                select
+                label="Hình thức làm việc"
+                variant="outlined"
+                value={jobDetails.jobType}
+                onChange={(event) => {
+                  handleInput("jobType", event.target.value);
+                }}
+                fullWidth
               >
-                <Grid item>
-                  <TextField
-                    label="Title"
-                    value={jobDetails.title}
-                    onChange={(event) =>
-                      handleInput("title", event.target.value)
-                    }
-                    variant="outlined"
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item>
-                  <Chip
-                    className={classes.inputBox}
-                    label="Skills"
-                    variant="outlined"
-                    helperText="Press enter to add skills"
-                    value={jobDetails.skillsets}
-                    onAdd={(chip) =>
-                      setJobDetails({
-                        ...jobDetails,
-                        skillsets: [...jobDetails.skillsets, chip],
-                      })
-                    }
-                    onDelete={(chip, index) => {
-                      let skillsets = jobDetails.skillsets;
-                      skillsets.splice(index, 1);
-                      setJobDetails({
-                        ...jobDetails,
-                        skillsets: skillsets,
-                      });
-                    }}
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item>
-                  <TextField
-                    select
-                    label="Job Type"
-                    variant="outlined"
-                    value={jobDetails.jobType}
-                    onChange={(event) => {
-                      handleInput("jobType", event.target.value);
-                    }}
-                    fullWidth
-                  >
-                    <MenuItem value="Full Time">Full Time</MenuItem>
-                    <MenuItem value="Part Time">Part Time</MenuItem>
-                    <MenuItem value="Work From Home">Work From Home</MenuItem>
-                  </TextField>
-                </Grid>
-                <Grid item>
-                  <TextField
-                    select
-                    label="Duration"
-                    variant="outlined"
-                    value={jobDetails.duration}
-                    onChange={(event) => {
-                      handleInput("duration", event.target.value);
-                    }}
-                    fullWidth
-                  >
-                    <MenuItem value={0}>Flexible</MenuItem>
-                    <MenuItem value={1}>1 Month</MenuItem>
-                    <MenuItem value={2}>2 Months</MenuItem>
-                    <MenuItem value={3}>3 Months</MenuItem>
-                    <MenuItem value={4}>4 Months</MenuItem>
-                    <MenuItem value={5}>5 Months</MenuItem>
-                    <MenuItem value={6}>6 Months</MenuItem>
-                  </TextField>
-                </Grid>
-                <Grid item>
-                  <TextField
-                    label="Salary"
-                    type="number"
-                    variant="outlined"
-                    value={jobDetails.salary}
-                    onChange={(event) => {
-                      handleInput("salary", event.target.value);
-                    }}
-                    InputProps={{ inputProps: { min: 0 } }}
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item>
-                  <TextField
-                    label="Application Deadline"
-                    type="datetime-local"
-                    value={jobDetails.deadline}
-                    onChange={(event) => {
-                      handleInput("deadline", event.target.value);
-                    }}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    variant="outlined"
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item>
-                  <TextField
-                    label="Maximum Number Of Applicants"
-                    type="number"
-                    variant="outlined"
-                    value={jobDetails.maxApplicants}
-                    onChange={(event) => {
-                      handleInput("maxApplicants", event.target.value);
-                    }}
-                    InputProps={{ inputProps: { min: 1 } }}
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item>
-                  <TextField
-                    label="Positions Available"
-                    type="number"
-                    variant="outlined"
-                    value={jobDetails.maxPositions}
-                    onChange={(event) => {
-                      handleInput("maxPositions", event.target.value);
-                    }}
-                    InputProps={{ inputProps: { min: 1 } }}
-                    fullWidth
-                  />
-                </Grid>
-              </Grid>
-              <Button
-                variant="contained"
-                color="primary"
-                style={{ padding: "10px 50px", marginTop: "30px" }}
-                onClick={() => handleUpdate()}
-              >
-                Create Job
-              </Button>
-            </Paper>
+                <MenuItem value="Full Time">Full Time</MenuItem>
+                <MenuItem value="Part Time">Part Time</MenuItem>
+                <MenuItem value="Work From Home">Work From Home</MenuItem>
+              </TextField>
+            </Grid>
+            <Grid item>
+              <NumericFormat
+                label="Mức lương"
+                prefix="$"
+                thousandSeparator=","
+                customInput={TextField}
+                value={jobDetails.salary}
+                onValueChange={(newFormattedValues) => {
+                  handleInput("salary", newFormattedValues.value);
+                }}
+                variant="outlined"
+                InputProps={{ inputProps: { min: 0 } }}
+                fullWidth
+              />
+            </Grid>
+            <Grid item>
+              <TextField
+                label="Hạn nộp hồ sơ"
+                type="datetime-local"
+                value={jobDetails.deadline}
+                onChange={(event) => {
+                  handleInput("deadline", event.target.value);
+                }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                variant="outlined"
+                fullWidth
+              />
+            </Grid>
+            <Grid item>
+              <TextField
+                label="Số lượng đơn ứng tuyển tối đa"
+                type="number"
+                variant="outlined"
+                value={jobDetails.maxApplicants}
+                onChange={(event) => {
+                  handleInput("maxApplicants", event.target.value);
+                }}
+                InputProps={{ inputProps: { min: 1 } }}
+                fullWidth
+              />
+            </Grid>
+            <Grid item>
+              <TextField
+                label="Số lượng nhân viên tuyển dụng"
+                type="number"
+                variant="outlined"
+                value={jobDetails.maxPositions}
+                onChange={(event) => {
+                  handleInput("maxPositions", event.target.value);
+                }}
+                InputProps={{ inputProps: { min: 1 } }}
+                fullWidth
+              />
+            </Grid>
           </Grid>
-        </Grid>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ padding: "10px 50px", marginTop: "30px" }}
+            onClick={() => handleUpdate()}
+          >
+            Xác nhận
+          </Button>
+        </Paper>
       </Grid>
-    </>
+    </Grid>
   );
 };
 

@@ -159,7 +159,7 @@ const JobTile = (props) => {
             Duration :{" "}
             {job.duration !== 0 ? `${job.duration} month` : `Flexible`}
           </Grid>
-          <Grid item>Date Of Posting: {postedOn.toLocaleDateString()}</Grid>
+          <Grid item>Date Of Posting: {postedOn.toLocaleDateString('vi-VN')}</Grid>
           <Grid item>Number of Applicants: {job.maxApplicants}</Grid>
           <Grid item>
             Remaining Number of Positions:{" "}

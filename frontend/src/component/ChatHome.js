@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import {
   Button,
   Grid,
@@ -43,29 +43,29 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ChatHome = () => {
-    const classes = useStyles();
-    const [chats, setChats] = useState([])
-    const navigate = useNavigate()
-    
-    useEffect(() => {
-      axios.get(`${apiList.chat}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        }
-      }).then(res => {
-        console.log(res.data)
-        setChats(res.data)
-      }).catch(err => {
-        console.log(err)
-        alert(err)
-      })
-    }, [])
+  const classes = useStyles();
+  const [chats, setChats] = useState([])
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    axios.get(`${apiList.chat}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      }
+    }).then(res => {
+      console.log(res.data)
+      setChats(res.data)
+    }).catch(err => {
+      console.log(err)
+      alert(err)
+    })
+  }, [])
 
   return (
     <>
       <Grid container
-              className={classes.item_container}
-        
+        className={classes.item_container}
+
         direction="column"
       >
         {
@@ -83,18 +83,18 @@ const ChatHome = () => {
               >
                 {
                   userType() === 'applicant' &&
-                <Grid container item xs={9} spacing={1} direction="column">
-                      <Grid item>Recruiter</Grid>
-                      <Grid item>Name: {chat.recruiterId.name}</Grid>
-                      <Grid item>Phone: {chat.recruiterId.contactNumber}</Grid>
-                </Grid>
+                  <Grid container item xs={9} spacing={1} direction="column">
+                    <Grid item>Recruiter</Grid>
+                    <Grid item>Name: {chat.recruiterId.name}</Grid>
+                    <Grid item>Phone: {chat.recruiterId.contactNumber}</Grid>
+                  </Grid>
                 }
                 {
                   userType() === 'recruiter' &&
-                <Grid container item xs={9} spacing={1} direction="column">
-                  <Grid item>Applicant</Grid>
-                      <Grid item>Name: {chat.applicantId.name}</Grid>
-                </Grid>
+                  <Grid container item xs={9} spacing={1} direction="column">
+                    <Grid item>Applicant</Grid>
+                    <Grid item>Name: {chat.applicantId.name}</Grid>
+                  </Grid>
                 }
 
                 <Grid item container direction="column" xs={3}>
@@ -104,10 +104,10 @@ const ChatHome = () => {
                       color="primary"
                       className={classes.statusBlock}
                       onClick={() => {
-                        let userId 
+                        let userId
                         if (userType() === 'recruiter') {
                           userId = chat.applicantId._id
-                        } else if (userType() === 'applicant')  {
+                        } else if (userType() === 'applicant') {
                           userId = chat.recruiterId._id
                         }
                         navigate(`/chat/${userId}`)

@@ -1,5 +1,6 @@
 import { Grid, Typography, Link } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import isAuth from "../lib/isAuth";
 
 const Title = (props) => (
   <Typography {...props} sx={{ fontWeight: "bold", margin: "20px 0", ...props.sx }} variant="h4" />
@@ -24,35 +25,35 @@ const LinkButton = (props) => (
 const Welcome = (props) => {
   let navigate = useNavigate();
 
-  const handleClick = (location) => {
-    console.log(location);
-    navigate(location);
+  const navigateToSignup = (type) => {
+    navigate("/signup", { state: { type: type } });
   };
 
   return (
-    <Grid
-      container
-      item
-      direction="row"
-      alignItems="center"
-      justifyContent="space-around"
-      justify="center"
-      sx={{
-        backgroundImage: "url(background_header.png)",
-        backgroundSize: "contain",
-        width: "100wh",
-        height: "90vh",
-      }}
-    >
-      <Grid item maxWidth="50%">
-        <Title>Bắt đầu công việc phù hợp với bạn</Title>
-        <LinkButton onClick={() => handleClick('/signup')}>Tìm việc ngay <span>&#8594;</span></LinkButton>
-      </Grid>
-      <Grid item maxWidth="50%">
-        <Title>Đăng tin tuyển dụng, tìm ứng viên</Title>
-        <LinkButton onClick={() => handleClick('/signup')}>Xem CV của các ứng viên <span>&#8594;</span></LinkButton>
-      </Grid>
-    </Grid>
+    isAuth() ?
+      <Navigate to="/home" /> : (
+        <Grid
+          container
+          item
+          direction="row"
+          alignItems="center"
+          justifyContent="space-around"
+          justify="center"
+          sx={{
+            backgroundImage: "url(background_header.png)",
+            backgroundSize: "contain",
+          }}
+        >
+          <Grid item maxWidth="50%">
+            <Title>Bắt đầu công việc phù hợp với bạn</Title>
+            <LinkButton onClick={() => navigateToSignup('applicant')}>Tìm việc ngay <span>&#8594;</span></LinkButton>
+          </Grid>
+          <Grid item maxWidth="50%">
+            <Title>Đăng tin tuyển dụng, tìm ứng viên</Title>
+            <LinkButton onClick={() => navigateToSignup('recruiter')}>Xem CV của các ứng viên <span>&#8594;</span></LinkButton>
+          </Grid>
+        </Grid>
+      )
   );
 };
 

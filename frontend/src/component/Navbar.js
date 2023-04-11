@@ -11,7 +11,8 @@ import isAuth, { userType } from "../lib/isAuth";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
-    backgroundColor: "transparent  !important"
+    backgroundColor: "transparent  !important",
+    zIndex: 999,
   },
   toolBar: {
     alignItems: "center",
@@ -63,15 +64,9 @@ const Navbar = (props) => {
       <LinkButton onClick={() => handleClick("/home")}>
         Trang chủ
       </LinkButton>
-      <LinkButton onClick={() => handleClick("/addjob")}>
-        Thêm
-      </LinkButton>
-      <LinkButton onClick={() => handleClick("/myjobs")}>
-        Việc làm của tôi
-      </LinkButton>
-      <LinkButton onClick={() => handleClick("/employees")}>
+      {/* <LinkButton onClick={() => handleClick("/employees")}>
         Ứng viên
-      </LinkButton>
+      </LinkButton> */}
       <LinkButton onClick={() => handleClick("/profile")}>
         Hồ sơ
       </LinkButton>
@@ -121,7 +116,7 @@ const Navbar = (props) => {
     <AppBar position="static" elevation={0} className={classes.appBar}>
       <Toolbar className={classes.toolBar}>
         <Container />
-        <img src="logo.png" width={150} />
+        <Box component="img" src="logo.png" width={150} onClick={() => handleClick("/")} />
         {isAuth() ? (
           userType() === "recruiter" ? recruiterToolBar() : applicantToolBar()
         ) : publicToolBar()}
