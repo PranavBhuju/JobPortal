@@ -116,7 +116,7 @@ const Navbar = (props) => {
     <AppBar position="static" elevation={0} className={classes.appBar}>
       <Toolbar className={classes.toolBar}>
         <Container />
-        <Box component="img" src="logo.png" width={150} onClick={() => handleClick("/")} />
+        <Box component="img" src={window.location.origin + "/logo.png"} width={150} onClick={() => handleClick("/")} />
         {isAuth() ? (
           userType() === "recruiter" ? recruiterToolBar() : applicantToolBar()
         ) : publicToolBar()}
