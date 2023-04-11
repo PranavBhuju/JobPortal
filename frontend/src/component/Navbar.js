@@ -64,15 +64,9 @@ const Navbar = (props) => {
       <LinkButton onClick={() => handleClick("/home")}>
         Trang chủ
       </LinkButton>
-      <LinkButton onClick={() => handleClick("/addjob")}>
-        Thêm
-      </LinkButton>
-      <LinkButton onClick={() => handleClick("/myjobs")}>
-        Việc làm của tôi
-      </LinkButton>
-      <LinkButton onClick={() => handleClick("/employees")}>
+      {/* <LinkButton onClick={() => handleClick("/employees")}>
         Ứng viên
-      </LinkButton>
+      </LinkButton> */}
       <LinkButton onClick={() => handleClick("/profile")}>
         Hồ sơ
       </LinkButton>

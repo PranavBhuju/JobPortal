@@ -1,28 +1,22 @@
 import { useState, useEffect, useContext } from "react";
 import {
   Button,
-  Chip,
   Grid,
-  IconButton,
-  InputAdornment,
   Paper,
-  TextField,
   Typography,
   Modal,
-  Slider,
-  FormControlLabel,
-  FormGroup,
-  MenuItem,
-  Checkbox,
   Rating,
-  Link
+  Link,
+  Avatar
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import axios from "axios";
 
-import { SetPopupContext } from "../App";
+import { SetPopupContext } from "../../App";
 
-import apiList from "../lib/apiList";
+import apiList, { server } from "../../lib/apiList";
+import { AccessTimeOutlined, AttachMoneyOutlined } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   body: {
@@ -38,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
   },
   jobTileOuter: {
     padding: "30px",
-    margin: "20px 0",
     boxSizing: "border-box",
     width: "100%",
   },
@@ -52,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ApplicationTile = (props) => {
   const classes = useStyles();
+  const navigate = useNavigate();
   const { application } = props;
   const setPopup = useContext(SetPopupContext);
   const [open, setOpen] = useState(false);
@@ -148,77 +142,109 @@ const ApplicationTile = (props) => {
 
   return (
     <Grid item>
-      <Paper elevation={1} sx={{ borderRadius: "20px", padding: "15px", maxWidth: "30wh" }}>
+      <Paper
+        className={classes.jobTileOuter}
+        elevation={0}
+        sx={{ borderRadius: "20px" }}
+      >
         <Grid container item spacing={1} direction="column" alignItems="center">
-          <Grid item>
-            <Typography variant="h5">{application.job.title}</Typography>
-          </Grid>
-          <Grid item>Nhà tuyển dụng : {application.recruiter.name}</Grid>
-          <Grid item>Hình thức : {application.job.jobType}</Grid>
-          <Grid item>Mức lương : {currencyFormatter.format(application.job.salary)} / tháng</Grid>
-          <Grid item>Thời gian ứng tuyển: {appliedOn.toLocaleDateString('vi-VN')}</Grid>
-          {application.status === "accepted" ||
-            application.status === "finished" ? (
-            <Grid item>Thời gian bắt đầu công việc: {joinedOn.toLocaleDateString('vi-VN')}</Grid>
-          ) : null}
-          <Grid item>
-            Trạng thái: {application.status ? <span style={{ color: colorSet[application.status], fontWeight: 500 }}>{statusLabel[application.status]}</span> : null}
+          <Grid container direction="row" flexWrap="noWrap" gap={1}>
+            <Grid item>
+              <Avatar
+                variant="square"
+                sx={{ width: "5rem", height: "5rem" }}
+                src="https://1000logos.net/wp-content/uploads/2019/06/Tiktok_Logo.png" />
+            </Grid>
+
+            <Grid container direction="column">
+              {/* <Grid item>
+                <Typography>{application.job.recruiter.name}</Typography>
+              </Grid> */}
+              <Grid item>
+                <Typography variant="h5">{application.job.title}</Typography>
+              </Grid>
+              <Grid item>
+                <Rating value={application.job.rating !== -1 ? application.job.rating : null} readOnly />
+              </Grid>
+            </Grid>
           </Grid>
 
-          <Grid container item direction="row" alignItems="center" justifyContent="space-around">
-            <Link>Chi tiết</Link>
+          <Grid container item direction="row" justifyContent="flex-start" gap={2}>
+            <Grid item container direction="row" alignItems="center" width="auto" gap={1}>
+              <AccessTimeOutlined />
+              <Typography variant="body2">{application.job.jobType}</Typography>
+            </Grid>
+
+            <Grid item container direction="row" alignItems="center" width="auto" gap={1}>
+              <AttachMoneyOutlined />
+              <Typography variant="body2">{currencyFormatter.format(application.job.salary)} / tháng</Typography>
+            </Grid>
+          </Grid>
+
+          <Grid item container direction="column" gap={1} marginTop="5px">
+            <Typography>Thời gian ứng tuyển: {appliedOn.toLocaleDateString('vi-VN')}</Typography>
             {application.status === "accepted" ||
               application.status === "finished" ? (
-              <Grid item>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={classes.statusBlock}
-                  onClick={() => {
-                    fetchRating();
-                    setOpen(true);
-                  }}
-                >
-                  Đánh giá
-                </Button>
-              </Grid>
+              <Typography>Thời gian bắt đầu công việc: {joinedOn.toLocaleDateString('vi-VN')}</Typography>
             ) : null}
+
+            <Typography>
+              Trạng thái: {application.status ?
+                <span style={{ color: colorSet[application.status], fontWeight: 500 }}>
+                  {statusLabel[application.status]}
+                </span> : null}
+            </Typography>
+          </Grid>
+
+          <Grid container item direction="row" alignItems="center" justifyContent="flex-end" paddingRight="20px" gap={4}>
+            {application.status === "accepted" ||
+              application.status === "finished" ? (
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  fetchRating();
+                  setOpen(true);
+                }}
+              >
+                Đánh giá
+              </Button>) : null}
+            <Link onClick={() => navigate(`/job/${application.job._id}`)}>Chi tiết</Link>
           </Grid>
         </Grid>
-      </Paper>
-
-      <Modal open={open} onClose={handleClose} className={classes.popupDialog}>
-        <Paper
-          style={{
-            padding: "20px",
-            outline: "none",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            minWidth: "30%",
-            alignItems: "center",
-          }}
-        >
-          <Rating
-            name="simple-controlled"
-            size="large"
-            style={{ marginBottom: "30px" }}
-            value={rating === -1 ? null : rating}
-            onChange={(event, newValue) => {
-              setRating(newValue);
+        <Modal open={open} onClose={handleClose} className={classes.popupDialog}>
+          <Paper
+            style={{
+              padding: "20px",
+              outline: "none",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              minWidth: "30%",
+              alignItems: "center",
             }}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            style={{ padding: "10px 50px" }}
-            onClick={() => changeRating()}
           >
-            Xác nhận
-          </Button>
-        </Paper>
-      </Modal>
-    </Grid>
+            <Rating
+              name="simple-controlled"
+              size="large"
+              style={{ marginBottom: "30px" }}
+              value={rating === -1 ? null : rating}
+              onChange={(event, newValue) => {
+                setRating(newValue);
+              }}
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ padding: "10px 50px" }}
+              onClick={() => changeRating()}
+            >
+              Xác nhận
+            </Button>
+          </Paper>
+        </Modal>
+      </Paper >
+    </Grid >
   );
 };
 
@@ -264,22 +290,13 @@ const Applications = (props) => {
       </Grid>
       <Grid
         container
-        // item
-        // xs
-        // direction="column"
-        // style={{ width: "100%" }}
-        // alignItems="stretch"
-        // justify="center"
-        marginY={4}
-        gap={4}
-        columns={2}
-        justifyContent="space-around"
+        direction="column"
+        gap={2}
+        marginTop={4}
       >
         {applications.length > 0 ? (
           applications.map((obj) => (
-            <Grid item>
-              <ApplicationTile application={obj} />
-            </Grid>
+            <ApplicationTile application={obj} />
           ))
         ) : (
           <Typography variant="h5" style={{ textAlign: "center" }}>

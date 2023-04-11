@@ -13,14 +13,16 @@ import {
   Checkbox,
   Rating,
   Divider,
-  Link
+  Link,
+  Avatar
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import axios from "axios";
-import { Search, ArrowUpward, ArrowDownward } from "@mui/icons-material";
+import { Search, ArrowUpward, ArrowDownward, AttachMoneyOutlined, AccessTimeOutlined } from "@mui/icons-material";
 import { SetPopupContext } from "../../App";
 import apiList from "../../lib/apiList";
 import { userType } from "../../lib/isAuth";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   body: {
@@ -43,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
 const JobTile = (props) => {
   const classes = useStyles();
   const { job } = props;
+  const navigate = useNavigate();
   const setPopup = useContext(SetPopupContext);
 
   const [open, setOpen] = useState(false);
@@ -87,8 +90,9 @@ const JobTile = (props) => {
       });
   };
 
-  const deadline = new Date(job.deadline).toLocaleDateString('vi-VN');
-  const curencyFormatter = new Intl.NumberFormat('en-US', {
+  const deadline = new Date(job.deadline);
+  const postedOn = new Date(job.dateOfPosting);
+  const currencyFormatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
     maximumFractionDigits: 0
@@ -96,21 +100,47 @@ const JobTile = (props) => {
 
   return (
     <Grid item>
-      <Paper elevation={1} sx={{borderRadius: "20px", padding: "15px", maxWidth: "30wh"}}>
+      <Paper elevation={0} sx={{ borderRadius: "20px", padding: "15px", maxWidth: "30wh" }}>
         <Grid container item spacing={1} direction="column" alignItems="center">
-          <Grid item>
-            <Typography variant="h5">{job.title}</Typography>
+          <Grid container direction="row" flexWrap="noWrap" gap={1}>
+            <Grid item>
+              <Avatar
+                variant="square"
+                sx={{ width: "5rem", height: "5rem" }}
+                src="https://1000logos.net/wp-content/uploads/2019/06/Tiktok_Logo.png" />
+            </Grid>
+            <Grid container direction="column">
+              <Grid item>
+                <Typography>{job.recruiter.name}</Typography>
+              </Grid>
+              <Grid item>
+                <Typography variant="h5">{job.title}</Typography>
+              </Grid>
+              <Grid item>
+                <Rating value={job.rating !== -1 ? job.rating : null} readOnly />
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid item>
-            <Rating value={job.rating !== -1 ? job.rating : null} readOnly />
-          </Grid>
-          <Grid item>Hình thức : {job.jobType}</Grid>
-          <Grid item>Mức lương : {curencyFormatter.format(job.salary)} / tháng</Grid>
-          <Grid item>Nhà tuyển dụng : {job.recruiter.name}</Grid>
-          <Grid item>Hạn nộp hồ sơ : {deadline}</Grid>
 
-          <Grid container item direction="row" alignItems="center" justifyContent="space-around">
-            <Link>Chi tiết</Link>
+          <Grid container item direction="row" justifyContent="flex-start" gap={2}>
+            <Grid item container direction="row" alignItems="center" width="auto" gap={1}>
+              <AccessTimeOutlined />
+              <Typography variant="body2">{job.jobType}</Typography>
+            </Grid>
+
+            <Grid item container direction="row" alignItems="center" width="auto" gap={1}>
+              <AttachMoneyOutlined />
+              <Typography variant="body2">{currencyFormatter.format(job.salary)} / tháng</Typography>
+            </Grid>
+          </Grid>
+
+          <Grid item container direction="column" spacing={1} marginTop="5px">
+            <Typography variant="body1">Ngày đăng : {postedOn.toLocaleDateString('vi-VN')}</Typography>
+            <Typography variant="body1">Hạn nộp hồ sơ : {deadline.toLocaleDateString('vi-VN')}</Typography>
+          </Grid>
+
+          <Grid container item direction="row" alignItems="center" justifyContent="flex-end" paddingRight="20px" gap={4}>
+            <Link onClick={() => navigate(`/job/${job._id}`)}>Chi tiết</Link>
             <Button
               variant="contained"
               color="primary"
@@ -118,8 +148,9 @@ const JobTile = (props) => {
                 setOpen(true);
               }}
               disabled={userType() === "recruiter"}
+              sx={{textTransform: "none"}}
             >
-              Apply
+              Ứng tuyển
             </Button>
           </Grid>
         </Grid>
@@ -163,7 +194,7 @@ const JobTile = (props) => {
             </Button>
           </Paper>
         </Modal>
-        </Paper>
+      </Paper>
     </Grid>
   );
 };
@@ -539,9 +570,9 @@ const Home = (props) => {
 
         <Grid
           container
-          marginY={4}
-          gap={4}
-          justifyContent="space-around"
+          direction="column"
+          gap={2}
+          marginTop={4}
         >
           {jobs.length > 0 ? (
             jobs.map((job) => {

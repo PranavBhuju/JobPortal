@@ -11,6 +11,9 @@ export const lightTheme = createTheme({
             // main: '#f50057',
             main: "#0e76ab"
         },
+        background: {
+            default: "#f5f5f5",
+        }
     },
     spacing: 8,
     overrides: {

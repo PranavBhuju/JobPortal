@@ -16,11 +16,12 @@ import {
   Link,
   Box,
   Fab,
-  Container
+  Container,
+  Avatar
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import axios from "axios";
-import { Search, ArrowUpward, ArrowDownward, Add } from "@mui/icons-material";
+import { Search, ArrowUpward, ArrowDownward, Add, SentimentVeryDissatisfied, Person2, Person, AccessTime, AttachMoney, AccessTimeOutlined, AttachMoneyOutlined } from "@mui/icons-material";
 import { SetPopupContext } from "../../App";
 import apiList from "../../lib/apiList";
 import { useNavigate } from "react-router-dom";
@@ -29,6 +30,22 @@ import CreateJobs from "./CreateJobs";
 const JobTile = (props) => {
   let navigate = useNavigate();
   const { job, getData } = props;
+
+  const [numApplications, setNumApplications] = useState(0);
+
+  const getApplications = () => {
+    const address = `${apiList.applicants}?jobId=${job._id}`;
+
+    axios.get(address, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }).then(
+      (res) => setNumApplications(res.data.length)
+    ).catch((err) => console.log(err));
+  }
+
+  useEffect(getApplications, [])
 
   const deadline = new Date(job.deadline);
   const postedOn = new Date(job.dateOfPosting);
@@ -40,22 +57,45 @@ const JobTile = (props) => {
 
   return (
     <Grid item>
-      <Paper elevation={1} sx={{ borderRadius: "20px", padding: "15px", maxWidth: "30wh" }}>
-        <Grid container item spacing={1} direction="column" alignItems="center">
-          <Grid item>
-            <Typography variant="h5">{job.title}</Typography>
+      <Paper elevation={0} sx={{ borderRadius: "20px", padding: "15px", maxWidth: "30wh" }}>
+        <Grid container item spacing={1} direction="column" alignItems="center" marginLeft="10px">
+          <Grid container direction="row" flexWrap="nowrap" gap={1}>
+            <Grid item>
+              <Avatar
+                variant="square"
+                sx={{ width: "5rem", height: "5rem" }}
+                src="https://1000logos.net/wp-content/uploads/2019/06/Tiktok_Logo.png" />
+            </Grid>
+            <Grid container direction="column">
+              <Grid item>
+                <Typography variant="h5">{job.title}</Typography>
+              </Grid>
+              <Grid item>
+                <Rating value={job.rating !== -1 ? job.rating : null} readOnly />
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid item>
-            <Rating value={job.rating !== -1 ? job.rating : null} readOnly />
-          </Grid>
-          <Grid item>Hình thức : {job.jobType}</Grid>
-          <Grid item>Mức lương : {curencyFormatter.format(job.salary)} / tháng</Grid>
-          <Grid item>Ngày đăng : {postedOn.toLocaleDateString('vi-VN')}</Grid>
-          <Grid item>Hạn nộp hồ sơ : {deadline.toLocaleDateString('vi-VN')}</Grid>
-          <Grid item>Số lượng ứng viên: {job.acceptedCandidates}/{job.maxApplicants}</Grid>
 
-          <Grid container item direction="row" alignItems="center" justifyContent="space-around">
-            <Link onClick={() => navigate(`/job/${job._id}`)}>Chi tiết</Link>
+          <Grid container item direction="row" justifyContent="flex-start" gap={2}>
+            <Grid item container direction="row" alignItems="center" width="auto" gap={1}>
+              <AccessTimeOutlined />
+              <Typography variant="body2">{job.jobType}</Typography>
+            </Grid>
+
+            <Grid item container direction="row" alignItems="center" width="auto" gap={1}>
+              <AttachMoneyOutlined />
+              <Typography variant="body2">{curencyFormatter.format(job.salary)} / tháng</Typography>
+            </Grid>
+          </Grid>
+
+          <Grid item container direction="column" spacing={1} marginTop="5px">
+            <Typography variant="body1">Ngày đăng : {postedOn.toLocaleDateString('vi-VN')}</Typography>
+            <Typography variant="body1">Hạn nộp hồ sơ : {deadline.toLocaleDateString('vi-VN')}</Typography>
+          </Grid>
+
+          <Grid container item direction="row" alignItems="center" justifyContent="space-between" paddingRight="20px">
+            <Typography variant="body2" color="secondary">Số lượng ứng viên: {numApplications}/{job.maxApplicants}</Typography>
+            <Button variant="outlined" onClick={() => navigate(`/job/${job._id}`)}>Chi tiết</Button>
           </Grid>
         </Grid>
       </Paper>
@@ -94,10 +134,10 @@ const Home = (props) => {
   const setPopup = useContext(SetPopupContext);
   useEffect(() => {
     getData();
-  }, [searchOptions]);
+  }, [searchOptions, openCreateJobModal]);
 
   const getData = () => {
-    let searchParams = [];
+    let searchParams = [`myjobs=1`];
     if (searchOptions.query !== "") {
       searchParams = [...searchParams, `q=${searchOptions.query}`];
     }
@@ -440,23 +480,25 @@ const Home = (props) => {
               onClick={() => setOpenCreateJobModal(true)}
             >Thêm công việc mới</Button>
           </Box>
-          {/* </Grid> */}
         </Grid>
 
         <Grid
           container
-          marginY={4}
-          gap={4}
-          justifyContent="space-around"
+          direction="column"
+          gap={2}
+          marginTop={4}
         >
           {jobs.length > 0 ? (
             jobs.map((job) => {
               return <JobTile job={job} />;
             })
           ) : (
-            <Typography variant="h5" style={{ textAlign: "center" }}>
-              Không tìm thấy công việc nào
-            </Typography>
+            <Box display="flex" flexDirection="column" alignItems="center" marginY="auto">
+              <SentimentVeryDissatisfied fontSize="large" />
+              <Typography variant="h5" style={{ textAlign: "center" }}>
+                Không tìm thấy công việc nào...
+              </Typography>
+            </Box>
           )}
         </Grid>
       </Grid>

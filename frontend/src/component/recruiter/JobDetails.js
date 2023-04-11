@@ -1,10 +1,11 @@
-import { Grid, Modal, Typography, Paper, Button, TextField } from "@mui/material";
+import { Grid, Modal, Typography, Paper, Button, TextField, Link } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { SetPopupContext } from "../../App";
 import apiList from "../../lib/apiList";
 import axios from "axios";
 import { makeStyles } from "@mui/styles";
+import { Delete, Update } from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
   body: {
@@ -26,12 +27,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function JobDetails(props) {
   const classes = useStyles();
+  const navigate = useNavigate();
   const { jobId } = useParams();
   const [job, setJob] = useState();
+  const [numApplications, setNumApplications] = useState(0);
   const setPopup = useContext(SetPopupContext);
-  const [open, setOpen] = useState(false);
+  const [open, setOpenDelete] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
-  const [jobDetails, setJobDetails] = useState(job);
 
   const getData = () => {
     const address = apiList.jobs + "/" + jobId;
@@ -52,15 +54,27 @@ export default function JobDetails(props) {
     });
   }
 
+  const getApplications = () => {
+    const address = `${apiList.applicants}?jobId=${jobId}`;
+
+    axios.get(address, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }).then(
+      (res) => setNumApplications(res.data.length)
+    ).catch((err) => console.log(err));
+  }
+
   const handleInput = (key, value) => {
-    setJobDetails({
-      ...jobDetails,
+    setJob({
+      ...job,
       [key]: value,
     });
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
   };
 
   const handleCloseUpdate = () => {
@@ -81,8 +95,8 @@ export default function JobDetails(props) {
           severity: "success",
           message: response.data.message,
         });
-        getData();
-        handleClose();
+        handleCloseDelete();
+        navigate(-1);
       })
       .catch((err) => {
         console.log(err.response);
@@ -91,13 +105,13 @@ export default function JobDetails(props) {
           severity: "error",
           message: err.response.data.message,
         });
-        handleClose();
+        handleCloseDelete();
       });
   };
 
   const handleJobUpdate = () => {
     axios
-      .put(`${apiList.jobs}/${job._id}`, jobDetails, {
+      .put(`${apiList.jobs}/${job._id}`, job, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -124,7 +138,7 @@ export default function JobDetails(props) {
 
   const jobModals = () => (
     <>
-      <Modal open={open} onClose={handleClose} className={classes.popupDialog}>
+      <Modal open={open} onClose={handleCloseDelete} className={classes.popupDialog}>
         <Paper
           style={{
             padding: "20px",
@@ -136,18 +150,18 @@ export default function JobDetails(props) {
             alignItems: "center",
           }}
         >
-          <Typography variant="h4" style={{ marginBottom: "10px" }}>
-            Are you sure?
+          <Typography variant="h5" style={{ marginBottom: "10px" }}>
+            Bạn có chắc chắc muốn xóa bài tuyển dụng này?
           </Typography>
-          <Grid container justify="center" spacing={5}>
+          <Grid container direction="row" justifyContent="space-around">
             <Grid item>
               <Button
-                variant="contained"
+                variant="outlined"
                 color="secondary"
                 style={{ padding: "10px 50px" }}
                 onClick={() => handleDelete()}
               >
-                Delete
+                Xóa
               </Button>
             </Grid>
             <Grid item>
@@ -155,9 +169,9 @@ export default function JobDetails(props) {
                 variant="contained"
                 color="primary"
                 style={{ padding: "10px 50px" }}
-                onClick={() => handleClose()}
+                onClick={() => handleCloseDelete()}
               >
-                Cancel
+                Hủy
               </Button>
             </Grid>
           </Grid>
@@ -180,7 +194,7 @@ export default function JobDetails(props) {
           }}
         >
           <Typography variant="h4" style={{ marginBottom: "10px" }}>
-            Update Details
+            Cập nhật bài tuyển dụng
           </Typography>
           <Grid
             container
@@ -190,9 +204,9 @@ export default function JobDetails(props) {
           >
             <Grid item>
               <TextField
-                label="Application Deadline"
+                label="Hạn ứng tuyển"
                 type="datetime-local"
-                value={jobDetails.deadline.substr(0, 16)}
+                value={job.deadline.substr(0, 16)}
                 onChange={(event) => {
                   handleInput("deadline", event.target.value);
                 }}
@@ -205,10 +219,10 @@ export default function JobDetails(props) {
             </Grid>
             <Grid item>
               <TextField
-                label="Maximum Number Of Applicants"
+                label="Số lượng ứng viên tối đa"
                 type="number"
                 variant="outlined"
-                value={jobDetails.maxApplicants}
+                value={job.maxApplicants}
                 onChange={(event) => {
                   handleInput("maxApplicants", event.target.value);
                 }}
@@ -218,10 +232,10 @@ export default function JobDetails(props) {
             </Grid>
             <Grid item>
               <TextField
-                label="Positions Available"
+                label="Số lượng tuyển dụng"
                 type="number"
                 variant="outlined"
-                value={jobDetails.maxPositions}
+                value={job.maxPositions}
                 onChange={(event) => {
                   handleInput("maxPositions", event.target.value);
                 }}
@@ -230,7 +244,7 @@ export default function JobDetails(props) {
               />
             </Grid>
           </Grid>
-          <Grid container justify="center" spacing={5}>
+          <Grid container justifyContent="space-around" spacing={5}>
             <Grid item>
               <Button
                 variant="contained"
@@ -238,17 +252,17 @@ export default function JobDetails(props) {
                 style={{ padding: "10px 50px" }}
                 onClick={() => handleJobUpdate()}
               >
-                Update
+                Cập nhật
               </Button>
             </Grid>
             <Grid item>
               <Button
-                variant="contained"
+                variant="outlined"
                 color="primary"
                 style={{ padding: "10px 50px" }}
                 onClick={() => handleCloseUpdate()}
               >
-                Cancel
+                Hủy
               </Button>
             </Grid>
           </Grid>
@@ -257,17 +271,71 @@ export default function JobDetails(props) {
     </>
   );
 
-  useEffect(getData, []);
+  useEffect(() => {
+    getData();
+    getApplications();
+  }, []);
 
-  return (
-    <>
-      {job ?
-        <Grid container item direction="column">
-          <Grid item>
-            <Typography variant="h3">{job.title}</Typography>
+  if (job) {
+    const deadline = new Date(job.deadline);
+    const postedOn = new Date(job.dateOfPosting);
+    const curencyFormatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 0
+    });
+
+    return (
+      <Grid container item direction="column" alignItems="center">
+        <Grid item>
+          <Typography variant="h3">{job.title}</Typography>
+        </Grid>
+
+        <Grid container item width="60%" spacing={2}>
+          <Grid item container direction="row"><Typography fontWeight="600">Hình thức</Typography> : {job.jobType}</Grid>
+          <Grid item container direction="row"><Typography fontWeight="600">Mức lương</Typography> : {curencyFormatter.format(job.salary)} / tháng</Grid>
+          <Grid item container direction="row"><Typography fontWeight="600">Ngày đăng tuyển</Typography> : {postedOn.toLocaleDateString('vi-VN', { month: "long" })}</Grid>
+          <Grid item container direction="row"><Typography fontWeight="600">Hạn nộp hồ sơ</Typography> : {deadline.toLocaleDateString('vi-VN', { day: "numeric", month: "long", year: "numeric" })}</Grid>
+          <Grid item container direction="row"><Typography fontWeight="600">Số lượng ứng tuyển tối đa</Typography> : {job.maxApplicants}</Grid>
+
+          <Grid item container direction="row">
+            <Typography variant="h6" fontWeight="600">Mô tả công việc</Typography>
+            <Typography variant="body1">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Typography>
           </Grid>
-        </Grid> : null}
-    </>
 
-  );
+          <Grid item container direction="row">
+            <Typography variant="h6" fontWeight="600">Yêu cầu</Typography>
+            <Typography variant="body1">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Typography>
+          </Grid>
+
+          <Grid item>
+            <Typography variant="h6" fontWeight="600">Thông tin ứng viên</Typography>
+            <Typography>
+              {numApplications} ứng viên đã ứng tuyển
+              {" "}
+              {<Link onClick={() => navigate(`/job/applications/${job._id}`)}>Xem chi tiết</Link>}
+            </Typography>
+          </Grid>
+        </Grid>
+
+        <Grid item container direction="row" width="20%" marginTop="50px" justifyContent="space-around">
+          <Button 
+            variant="outlined"
+            startIcon={<Update />}
+            onClick={() => setOpenUpdate(true)}
+          >Cập nhật</Button>
+          <Button 
+            variant="contained" 
+            color="error" 
+            startIcon={<Delete />}
+            onClick={() => setOpenDelete(true)}
+          >Xóa</Button>
+        </Grid>
+
+        {jobModals()}
+      </Grid>
+    );
+  } else {
+    return <div>Loading...</div>;
+  }
 }

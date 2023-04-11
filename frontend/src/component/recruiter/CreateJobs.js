@@ -143,8 +143,8 @@ const CreateJobs = (props) => {
                 thousandSeparator=","
                 customInput={TextField}
                 value={jobDetails.salary}
-                onChange={(event) => {
-                  handleInput("salary", event.target.value);
+                onValueChange={(newFormattedValues) => {
+                  handleInput("salary", newFormattedValues.value);
                 }}
                 variant="outlined"
                 InputProps={{ inputProps: { min: 0 } }}

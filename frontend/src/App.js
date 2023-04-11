@@ -12,10 +12,9 @@ import Login from "./component/Login";
 import Logout from "./component/Logout";
 import Signup from "./component/Signup";
 import Home from "./component/Home";
-import Applications from "./component/Applications";
+import { ApplicantApplications } from "./component/applicant";
 import Profile from "./component/Profile";
 import CreateJobs from "./component/recruiter/CreateJobs";
-import MyJobs from "./component/recruiter/MyJobs";
 import JobApplications from "./component/recruiter/JobApplications";
 import AcceptedApplicants from "./component/recruiter/AcceptedApplicants";
 import MessagePopup from "./lib/MessagePopup";
@@ -58,10 +57,9 @@ function App() {
                 <Route exact path="/signup" element={<Signup />} />
                 <Route exact path="/logout" element={<Logout />} />
                 <Route exact path="/home" element={<Home />} />
-                <Route exact path="/applications" element={<Applications />} />
+                <Route exact path="/applications" element={<ApplicantApplications />} />
                 <Route exact path="/profile" element={<Profile />} />
                 <Route exact path="/addjob" element={<CreateJobs />} />
-                <Route exact path="/myjobs" element={<MyJobs />} />
                 <Route exact path="/job/applications/:jobId" element={<JobApplications />} />
                 <Route exact path="/job/:jobId" element={<JobDetails />} />
                 <Route exact path="/employees" element={<AcceptedApplicants />} />
