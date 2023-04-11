@@ -352,7 +352,7 @@ const Signup = (props) => {
 
   const signupForm = () => (
     <Grid container flexDirection="row" flexWrap="nowrap" flexGrow={1} padding="0 5em">
-      <Grid container margin="20vh 0" width="50%">
+      <Grid container margin="5vh 0" width="50%">
         <Grid container direction="column" spacing={4} alignItems="center">
           <Grid item>
             <Typography variant="h4" fontWeight={500} color="primary">
@@ -377,11 +377,12 @@ const Signup = (props) => {
       </Grid>
       <Grid container direction="column" width="50%" alignItems="center">
         <Box component="img" margin="0 auto" src={signupDetails.type === "recruiter" ? "recruiter_abstract.jpg" : "applicant_abstract.jpg"} />
-        <Typography variant="h6">{
-          signupDetails.type === "recruiter" ? "Kết nối với hàng ngàn ứng viên tiềm năng cho công việc của bạn" : "Tìm việc làm cực kỳ đơn giản với LinkedCV"
-        }</Typography>
+        {signupDetails.type === "recruiter" ?
+          <Typography variant="h6">Kết nối với hàng ngàn ứng viên tiềm năng cho công việc của bạn</Typography>
+          : <Typography variant="h6">Tìm việc làm cực kỳ đơn giản với <Box component="span" color="#0e76ab">LinkedCV</Box></Typography>
+        }
       </Grid>
-    </Grid>
+    </Grid >
   );
 
   const signupTypeChooser = () => (
@@ -391,13 +392,13 @@ const Signup = (props) => {
         <Grid container flexWrap="nowrap" direction="row" spacing={4}>
           <Grid container direction="column" alignItems="center">
             <Box component="img" src="applicant_abstract.jpg" width={400} />
-            <Button variant="text" color="primary" sx={{ textTransform: "capitalize", fontWeight: 600 }} onClick={() => setSignupDetails({type: "applicant"})}>
+            <Button variant="text" color="primary" sx={{ textTransform: "capitalize", fontWeight: 600 }} onClick={() => setSignupDetails({ type: "applicant" })}>
               Ứng viên tìm việc
             </Button>
           </Grid>
           <Grid container direction="column" alignItems="center">
             <Box component="img" src="recruiter_abstract.jpg" width={400} />
-            <Button variant="text" color="primary" sx={{ textTransform: "capitalize", fontWeight: 600 }} onClick={() => setSignupDetails({type: "recruiter"})}>
+            <Button variant="text" color="primary" sx={{ textTransform: "capitalize", fontWeight: 600 }} onClick={() => setSignupDetails({ type: "recruiter" })}>
               Nhà tuyển dụng
             </Button>
           </Grid>
