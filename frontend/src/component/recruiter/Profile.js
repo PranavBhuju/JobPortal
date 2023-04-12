@@ -16,7 +16,8 @@ import "react-phone-input-2/lib/material.css";
 
 import { SetPopupContext } from "../../App";
 
-import apiList from "../../lib/apiList";
+import apiList, { server } from "../../lib/apiList";
+import AvatarWithUpload from "../../lib/AvatarWithUpload";
 
 const useStyles = makeStyles((theme) => ({
   body: {
@@ -39,6 +40,7 @@ const Profile = (props) => {
     name: "",
     bio: "",
     contactNumber: "",
+    profile: ""
   });
 
   const [phone, setPhone] = useState("");
@@ -80,17 +82,8 @@ const Profile = (props) => {
     let updatedDetails = {
       ...profileDetails,
     };
-    if (phone !== "") {
-      updatedDetails = {
-        ...profileDetails,
-        contactNumber: `+${phone}`,
-      };
-    } else {
-      updatedDetails = {
-        ...profileDetails,
-        contactNumber: "",
-      };
-    }
+
+    console.log("Update details", updatedDetails);
 
     axios
       .put(apiList.user, updatedDetails, {
@@ -183,12 +176,11 @@ const Profile = (props) => {
 
         <Grid container direction="column" xs={3} gap={2} alignContent="center">
           <Typography variant="h6" color="secondary">Ảnh đại diện</Typography>
-          <Avatar
-            src="https://i.guim.co.uk/img/media/327e46c3ab049358fad80575146be9e0e65686e7/0_0_1023_742/master/1023.jpg?width=465&quality=85&dpr=1&s=none"
-            sx={{ width: "10rem", height: "10rem", borderInlineWidth: "10px", borderColor: "grey.500" }}
-          >
-            {profileDetails.name ? profileDetails.name[0] : "U"}
-          </Avatar>
+          <AvatarWithUpload
+            src={server + profileDetails.profile}
+            uploadTo={apiList.uploadProfileImage}
+            onChange={(url) => handleInput("profile", url)}
+          />
         </Grid>
       </Grid>
       <Button
@@ -199,74 +191,6 @@ const Profile = (props) => {
       >
         Cập nhật hồ sơ
       </Button>
-      {/* <Grid item xs style={{ width: "100%" }}>
-        <Paper
-          style={{
-            padding: "20px",
-            outline: "none",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            //   width: "60%",
-          }}
-        >
-          <Grid container direction="column" alignItems="stretch" spacing={3}>
-            <Grid item>
-              <TextField
-                label="Name"
-                value={profileDetails.name}
-                onChange={(event) => handleInput("name", event.target.value)}
-                className={classes.inputBox}
-                variant="outlined"
-                fullWidth
-                style={{ width: "100%" }}
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                label="Bio (upto 250 words)"
-                multiline
-                rows={8}
-                style={{ width: "100%" }}
-                variant="outlined"
-                value={profileDetails.bio}
-                onChange={(event) => {
-                  if (
-                    event.target.value.split(" ").filter(function (n) {
-                      return n != "";
-                    }).length <= 250
-                  ) {
-                    handleInput("bio", event.target.value);
-                  }
-                }}
-              />
-            </Grid>
-            <Grid
-              item
-              style={{
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <PhoneInput
-                country={"in"}
-                value={phone}
-                onChange={(phone) => setPhone(phone)}
-                style={{ width: "auto" }}
-              />
-            </Grid>
-          </Grid>
-          <Button
-            variant="contained"
-            color="primary"
-            style={{ padding: "10px 50px", marginTop: "30px" }}
-            onClick={() => handleUpdate()}
-          >
-            Update Details
-          </Button>
-        </Paper>
-      </Grid> */}
     </Grid>
   );
 };

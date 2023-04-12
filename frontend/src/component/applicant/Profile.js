@@ -3,22 +3,19 @@ import {
   Button,
   Grid,
   Typography,
-  Modal,
-  Paper,
   TextField,
-  Chip,
   Divider,
-  Box,
   Avatar
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import axios from "axios";
 import FileUploadInput from "../../lib/FileUploadInput";
-import { Add, Description, Face, Person } from "@mui/icons-material";
+import { Add, Description, Edit, Face, Person } from "@mui/icons-material";
 
 import { SetPopupContext } from "../../App";
 
-import apiList from "../../lib/apiList";
+import apiList, { server } from "../../lib/apiList";
+import AvatarWithUpload from "../../lib/AvatarWithUpload";
 
 const useStyles = makeStyles((theme) => ({
   body: {
@@ -149,7 +146,8 @@ const Profile = (props) => {
         },
       })
       .then((response) => {
-        console.log(response.data);
+        console.log("response", response.data);
+        console.log("profile", response.data.profile);
         setProfileDetails(response.data);
         if (response.data.education.length > 0) {
           setEducation(
@@ -171,14 +169,6 @@ const Profile = (props) => {
       });
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const editDetails = () => {
-    setOpen(true);
-  };
-
   const handleUpdate = () => {
     console.log(education);
 
@@ -193,6 +183,8 @@ const Profile = (props) => {
           return obj;
         }),
     };
+
+    console.log("updated details", updatedDetails);
 
     axios
       .put(apiList.user, updatedDetails, {
@@ -272,12 +264,12 @@ const Profile = (props) => {
 
         <Grid container direction="column" xs={3} gap={2} alignContent="center">
           <Typography variant="h6" color="secondary">Ảnh đại diện</Typography>
-          <Avatar
-            src="https://i.guim.co.uk/img/media/327e46c3ab049358fad80575146be9e0e65686e7/0_0_1023_742/master/1023.jpg?width=465&quality=85&dpr=1&s=none"
-            sx={{ width: "10rem", height: "10rem", borderInlineWidth: "10px", borderColor: "grey.500" }}
-          >
-            {profileDetails.name ? profileDetails.name[0] : "U"}
-          </Avatar>
+
+          <AvatarWithUpload 
+            src={server + profileDetails.profile}
+            uploadTo={apiList.uploadProfileImage}
+            onChange={(url) => handleInput("profile", url)}
+           />
         </Grid>
       </Grid>
       <Button

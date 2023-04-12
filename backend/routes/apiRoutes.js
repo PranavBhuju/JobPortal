@@ -414,6 +414,9 @@ router.put("/user", jwtAuth, (req, res) => {
         if (data.bio) {
           recruiter.bio = data.bio;
         }
+        if (data.profile) {
+          recruiter.profile = data.profile;
+        }
         recruiter
           .save()
           .then(() => {

@@ -153,7 +153,7 @@ const ApplicationTile = (props) => {
               <Avatar
                 variant="square"
                 sx={{ width: "5rem", height: "5rem" }}
-                src="https://1000logos.net/wp-content/uploads/2019/06/Tiktok_Logo.png" />
+                src={server + application.recruiter.profile} />
             </Grid>
 
             <Grid container direction="column">

@@ -12,58 +12,55 @@ const upload = multer();
 
 router.post("/resume", upload.single("file"), (req, res) => {
   const { file } = req;
-  if (file.detectedFileExtension != ".pdf") {
+  if (!["application/pdf"].includes(file.mimetype)) {
     res.status(400).json({
-      message: "Invalid format",
+      message: "Invalid format"
     });
   } else {
-    const filename = `${uuidv4()}${file.detectedFileExtension}`;
-
-    pipeline(
-      file.stream,
-      fs.createWriteStream(`${__dirname}/../public/resume/${filename}`)
-    )
-      .then(() => {
-        res.send({
-          message: "File uploaded successfully",
-          url: `/host/resume/${filename}`,
-        });
-      })
-      .catch((err) => {
-        res.status(400).json({
-          message: "Error while uploading",
-        });
-      });
+    const filename = `${uuidv4()}${file.mimetype.replace("application/", ".")}`;
+    fs.writeFile(
+      `${__dirname}/../public/resume/${filename}`,
+      file.buffer,
+      (err) => {
+        if (err) {
+          res.status(400).json({
+            message: "Error while uploading"
+          });
+        } else {
+          res.send({
+            message: "File uploaded successfully",
+            url: `/host/resume/${filename}`
+          });
+        }
+      }
+    );
   }
 });
 
 router.post("/profile", upload.single("file"), (req, res) => {
   const { file } = req;
-  if (
-    file.detectedFileExtension != ".jpg" &&
-    file.detectedFileExtension != ".png"
-  ) {
+  if (!["image/jpg", "image/png", "image/jpeg"].includes(file.mimetype)) {
     res.status(400).json({
-      message: "Invalid format",
+      message: "Invalid format"
     });
   } else {
-    const filename = `${uuidv4()}${file.detectedFileExtension}`;
-
-    pipeline(
-      file.stream,
-      fs.createWriteStream(`${__dirname}/../public/profile/${filename}`)
+    const filename = `${uuidv4()}${file.mimetype.replace("image/", ".")}`;
+    fs.writeFile(
+      `${__dirname}/../public/profile/${filename}`,
+      file.buffer,
+      (err) => {
+        if (err) {
+          res.status(400).json({
+            message: "Error while uploading"
+          });
+        } else {
+          res.send({
+            message: "Profile image uploaded successfully",
+            url: `/host/profile/${filename}`
+          });
+        }
+      }
     )
-      .then(() => {
-        res.send({
-          message: "Profile image uploaded successfully",
-          url: `/host/profile/${filename}`,
-        });
-      })
-      .catch((err) => {
-        res.status(400).json({
-          message: "Error while uploading",
-        });
-      });
   }
 });
 

@@ -23,7 +23,7 @@ import { makeStyles } from "@mui/styles";
 import axios from "axios";
 import { Search, ArrowUpward, ArrowDownward, Add, SentimentVeryDissatisfied, Person2, Person, AccessTime, AttachMoney, AccessTimeOutlined, AttachMoneyOutlined } from "@mui/icons-material";
 import { SetPopupContext } from "../../App";
-import apiList from "../../lib/apiList";
+import apiList, { server } from "../../lib/apiList";
 import { useNavigate } from "react-router-dom";
 import CreateJobs from "./CreateJobs";
 
@@ -45,7 +45,7 @@ const JobTile = (props) => {
     ).catch((err) => console.log(err));
   }
 
-  useEffect(getApplications, [])
+  useEffect(getApplications, []);
 
   const deadline = new Date(job.deadline);
   const postedOn = new Date(job.dateOfPosting);
@@ -64,7 +64,7 @@ const JobTile = (props) => {
               <Avatar
                 variant="square"
                 sx={{ width: "5rem", height: "5rem" }}
-                src="https://1000logos.net/wp-content/uploads/2019/06/Tiktok_Logo.png" />
+                src={server + job.recruiter.profile} />
             </Grid>
             <Grid container direction="column">
               <Grid item>
