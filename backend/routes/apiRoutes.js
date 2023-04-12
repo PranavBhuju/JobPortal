@@ -629,59 +629,60 @@ router.get("/jobs/:id/applications", jwtAuth, (req, res) => {
 });
 
 // recruiter/applicant gets all his applications [pagination]
-router.get("/applications", jwtAuth, (req, res) => {
-  const user = req.user;
+// router.get("/applications", jwtAuth, (req, res) => {
+//   const user = req.user;
+//   console.log("CHECK2:::", user)
 
-  // const page = parseInt(req.query.page) ? parseInt(req.query.page) : 1;
-  // const limit = parseInt(req.query.limit) ? parseInt(req.query.limit) : 10;
-  // const skip = page - 1 >= 0 ? (page - 1) * limit : 0;
+//   // const page = parseInt(req.query.page) ? parseInt(req.query.page) : 1;
+//   // const limit = parseInt(req.query.limit) ? parseInt(req.query.limit) : 10;
+//   // const skip = page - 1 >= 0 ? (page - 1) * limit : 0;
 
-  Application.aggregate([
-    {
-      $lookup: {
-        from: "jobapplicantinfos",
-        localField: "userId",
-        foreignField: "userId",
-        as: "jobApplicant",
-      },
-    },
-    { $unwind: "$jobApplicant" },
-    {
-      $lookup: {
-        from: "jobs",
-        localField: "jobId",
-        foreignField: "_id",
-        as: "job",
-      },
-    },
-    { $unwind: "$job" },
-    {
-      $lookup: {
-        from: "recruiterinfos",
-        localField: "recruiterId",
-        foreignField: "userId",
-        as: "recruiter",
-      },
-    },
-    { $unwind: "$recruiter" },
-    {
-      $match: {
-        [user.type === "recruiter" ? "recruiterId" : "userId"]: user._id,
-      },
-    },
-    {
-      $sort: {
-        dateOfApplication: -1,
-      },
-    },
-  ])
-    .then((applications) => {
-      res.json(applications);
-    })
-    .catch((err) => {
-      res.status(400).json(err);
-    });
-});
+//   Application.aggregate([
+//     {
+//       $lookup: {
+//         from: "jobapplicantinfos",
+//         localField: "userId",
+//         foreignField: "userId",
+//         as: "jobApplicant",
+//       },
+//     },
+//     { $unwind: "$jobApplicant" },
+//     {
+//       $lookup: {
+//         from: "jobs",
+//         localField: "jobId",
+//         foreignField: "_id",
+//         as: "job",
+//       },
+//     },
+//     { $unwind: "$job" },
+//     {
+//       $lookup: {
+//         from: "recruiterinfos",
+//         localField: "recruiterId",
+//         foreignField: "userId",
+//         as: "recruiter",
+//       },
+//     },
+//     { $unwind: "$recruiter" },
+//     {
+//       $match: {
+//         [user.type === "recruiter" ? "recruiterId" : "userId"]: user._id,
+//       },
+//     },
+//     {
+//       $sort: {
+//         dateOfApplication: -1,
+//       },
+//     },
+//   ])
+//     .then((applications) => {
+//       res.json(applications);
+//     })
+//     .catch((err) => {
+//       res.status(400).json(err);
+//     });
+// });
 
 // update status of application: [Applicant: Can cancel, Recruiter: Can do everything] [todo: test: done]
 router.put("/applications/:id", jwtAuth, (req, res) => {
@@ -876,7 +877,7 @@ router.put("/applications/:id", jwtAuth, (req, res) => {
 });
 
 // get a list of final applicants for current job : recruiter
-// get a list of final applicants for all his jobs : recuiter
+// get a list of final applicants for all his jobs : recruiter
 router.get("/applicants", jwtAuth, (req, res) => {
   const user = req.user;
   if (user.type === "recruiter") {
