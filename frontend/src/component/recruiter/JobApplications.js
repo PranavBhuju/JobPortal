@@ -14,7 +14,7 @@ import {
   Box
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { ArrowUpward, ArrowDownward, SentimentDissatisfied, SentimentVeryDissatisfiedRounded, SentimentVeryDissatisfied, } from "@mui/icons-material";
 
@@ -50,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ApplicationTile = (props) => {
   const classes = useStyles();
+  const navigate = useNavigate();
   const { application, getData } = props;
   const setPopup = useContext(SetPopupContext);
   const [open, setOpen] = useState(false);
@@ -76,7 +77,7 @@ const ApplicationTile = (props) => {
       application.jobApplicant.resume &&
       application.jobApplicant.resume !== ""
     ) {
-      const address = `${server}/${application.jobApplicant.resume}`;
+      const address = `${server}${application.jobApplicant.resume}`;
       console.log("address resume", address);
       axios(address, {
         method: "GET",
@@ -307,7 +308,7 @@ const ApplicationTile = (props) => {
             </Grid>
           </Grid>
 
-          <Grid container justifyContent="flex-end" alignItems="flex-start">
+          <Grid container justifyContent="flex-end" alignItems="flex-start" gap={1}>
             <Grid item>
               <Button
                 variant="text"
@@ -317,6 +318,14 @@ const ApplicationTile = (props) => {
               >
                 Xem CV
               </Button>
+            </Grid>
+            <Grid item>
+              <Button 
+                variant="contained"
+                onClick={() => {
+                  navigate(`/chat/${application.jobApplicant._id}`)
+                }}
+              >Chat</Button>
             </Grid>
           </Grid>
         </Grid>

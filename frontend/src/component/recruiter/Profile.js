@@ -81,6 +81,7 @@ const Profile = (props) => {
   const handleUpdate = () => {
     let updatedDetails = {
       ...profileDetails,
+      contactNumber: `+${phone}`
     };
 
     console.log("Update details", updatedDetails);

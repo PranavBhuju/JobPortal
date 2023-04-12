@@ -159,7 +159,7 @@ const JobTile = (props) => {
               color="secondary"
               className={classes.statusBlock}
               onClick={() => {
-                navigate(`/chat/${job.recruiter._id.toString()}`)
+                navigate(`/chat/${job.recruiter._id}`)
               }}
             >
               Chat
