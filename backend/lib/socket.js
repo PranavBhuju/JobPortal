@@ -14,9 +14,8 @@ const initSocket = (app,io) => {
         })
 
         socket.on("message", message => {
-            console.log(message)
-            io.in(message.to).emit("message", {...message, you: false})
-            io.in(message.from).emit("message", {...message, you: true})
+            console.log("send message", message)
+            io.in(message.chatId).emit("message", {...message})
         })
 
     })

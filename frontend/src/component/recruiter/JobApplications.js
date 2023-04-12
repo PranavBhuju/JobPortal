@@ -71,19 +71,22 @@ const ApplicationTile = (props) => {
   };
 
   const getResume = () => {
+    console.log(application)
     if (
       application.jobApplicant.resume &&
       application.jobApplicant.resume !== ""
     ) {
-      const address = `${server}${application.jobApplicant.resume}`;
-      console.log(address);
+      const address = `${server}/${application.jobApplicant.resume}`;
+      console.log("address resume", address);
       axios(address, {
         method: "GET",
         responseType: "blob",
       })
         .then((response) => {
           const file = new Blob([response.data], { type: "application/pdf" });
+          console.log("file", file)
           const fileURL = URL.createObjectURL(file);
+          console.log("fileURL", fileURL)
           window.open(fileURL);
         })
         .catch((error) => {

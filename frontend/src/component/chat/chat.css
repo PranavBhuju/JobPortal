@@ -1,14 +1,14 @@
 .chat {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     width: 100%;
 }
 
 .inbox {
     width: 90%;
-    height: 760px;
+    height: 700px;
     box-shadow: 0px 0px 4px black;
     overflow-y: scroll;
     display:flex;

@@ -70,14 +70,9 @@ const Chat = () => {
   const partnerId = useParams().id
   const [chatId, setChatId] = React.useState("")
   const [messages, setMessages] = React.useState([])
+  const [partner, setPartner] = React.useState({})
 
   const setPopup = React.useContext(SetPopupContext);
-  const [open, setOpen] = React.useState(false);
-  const [sop, setSop] = React.useState("");
-  const handleClose = () => {
-    setOpen(false);
-    setSop("");
-  };
 
   React.useEffect(() => {
     axios.get(`${apiList.chat}/${partnerId}`, {
@@ -85,40 +80,58 @@ const Chat = () => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     }).then(res => {
-      console.log(res.data.messages)
+      console.log(res)
       setChatId(res.data.chatId)
       socket.emit("join chat", res.data.chatId)
       setMessages(res.data.messages)
+      setPartner(res.data.partner)
     }).catch(err => {
       console.log(err.response);
-      setPopup({
-        open: true,
-        severity: "error",
-        message: err,
-      });
-      handleClose();
     })
   }, [])
 
   React.useEffect(() => {
     const sendMessageListener = msg => {
+      console.log("on message")
       setMessages(prev => ([
         ...prev,
-        msg
+        {
+          ...msg,
+          you: userType() === msg.userType
+        }
       ]))
     }
 
     socket.on("message", sendMessageListener)
 
     return () => {
-      socket.off("send message", sendMessageListener)
+      socket.off("message", sendMessageListener)
     }
   }, [socket])
 
   return (
     <div className="chat">
-      <Inbox className="inbox" messages={messages} />
-      <ChatPanel className="chat-panel" chatId={chatId} />
+      {
+        partner && Object.keys(partner).length === 0 ?
+          <div>Invalid partner. Cannot open chat</div>
+          :
+          <>
+            <div>
+              <div>Chatting with: {partner.name}</div>
+              {
+                partner.userId?.email &&
+                <div>Email: {partner.userId.email}</div>
+              }
+              {
+                userType() === 'applicant' &&
+                partner.contactNumber &&
+                <div>Phone: {partner.contactNumber}</div>
+              }
+            </div>
+            <Inbox className="inbox" messages={messages} />
+            <ChatPanel className="chat-panel" chatId={chatId} />
+          </>
+      }
     </div>
   );
 }

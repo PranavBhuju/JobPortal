@@ -16,33 +16,34 @@ router.get("/:id", jwtAuth, async (req, res) => {
     const partnerId = req.params.id;
     let _u;
     let me;
+  // const { io, socket } = req.app.get('socket.io');
  
     let filter = {}
-    if (user.type === 'recruiter') {
-        _u = await JobApplicant.findOne({ _id: partnerId })
-        me = await Recruiter.findOne({userId: user._id})
-        if (!_u) {
-            return res.status(404).json({
-                message: `Partner with ID:${partnerId} not found`,
-            });
-        }
-        filter = {
-            applicantId: _u._id,
-            recruiterId: me._id
-        }
-    } else if (user.type === 'applicant') {
-        _u = await Recruiter.findOne({ _id: partnerId })
-        me = await JobApplicant.findOne({userId: user._id})
-        if (!_u) {
-            return res.status(404).json({
-                message: `Partner with ID:${partnerId} not found`,
-            });
-        }
-        filter = {
-            applicantId: me._id,
-            recruiterId: _u._id
-        }
+  if (user.type === 'recruiter') {
+    _u = await JobApplicant.findOne({ _id: partnerId }).populate("userId", "email")
+    me = await Recruiter.findOne({ userId: user._id })
+    if (!_u) {
+      return res.status(404).json({
+        message: `Partner with ID:${partnerId} not found`,
+      });
     }
+    filter = {
+      applicantId: _u._id,
+      recruiterId: me._id
+    }
+  } else if (user.type === 'applicant') {
+    _u = await Recruiter.findOne({ _id: partnerId }).populate("userId", "email")
+    me = await JobApplicant.findOne({ userId: user._id })
+    if (!_u) {
+      return res.status(404).json({
+        message: `Partner with ID:${partnerId} not found`,
+      });
+    }
+    filter = {
+      applicantId: me._id,
+      recruiterId: _u._id
+    }
+  }
 
   Chat.findOne(filter)
     .lean()
@@ -59,6 +60,7 @@ router.get("/:id", jwtAuth, async (req, res) => {
               return res.status(200).json({
                 isNew: true,
                 chatId: record._id,
+                partner:_u,
                 messages: [],
               });
             })
@@ -72,6 +74,7 @@ router.get("/:id", jwtAuth, async (req, res) => {
           return res.status(200).json({
             isNew: false,
             chatId: doc._id,
+            partner:_u,
             messages: messages.map((msg) => ({
               ...msg._doc,
               you: msg._doc.userId.toString() === user._id.toString(),
@@ -104,7 +107,7 @@ router.post("/:id/message", jwtAuth, async (req, res) => {
       return res.status(200).json({
         ...record._doc,
         from: user._id,
-        to: user.type === 'recruiter' ? chat.applicantId.userId.toString() : chat.recruiterId.userId.toString()
+        userType: user.type
       });
     })
     .catch((err) => {

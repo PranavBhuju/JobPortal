@@ -10,9 +10,6 @@ const jwtAuth = (req, res, next) => {
       return;
     }
     req.user = user;
-    const { io, socket } = req.app.get('socket.io');
-    console.log('join', user._id.toString())
-    socket.join(user._id.toString())
     next();
   })(req, res, next);
 };
