@@ -15,68 +15,55 @@ const upload = multer();
 
 router.post("/resume", upload.single("file"), jwtAuth, async(req, res) => {
   const { file } = req;
-  
-  if (!['application/pdf'].includes(file.mimetype)) {
+  if (!["application/pdf"].includes(file.mimetype)) {
     res.status(400).json({
-      message: "Invalid format",
+      message: "Invalid format"
     });
   } else {
-    const filename = `${uuidv4()}${file.originalname}`;
-    const file_dir = `host/resume/${filename}`
-    pipeline(
-      `${file.buffer}`,
-      fs.createWriteStream(`${__dirname}/../public/resume/${filename}`)
-    )
-      .then(async () => {
-        const jobApplicant = await JobApplicant.findOne({ userId: req.user._id })
-        if (!jobApplicant) {
-          return res.status(404).json({
-            message: "Cannot specify user",
+    const filename = `${uuidv4()}${file.mimetype.replace("application/", ".")}`;
+    fs.writeFile(
+      `${__dirname}/../public/resume/${filename}`,
+      file.buffer,
+      (err) => {
+        if (err) {
+          res.status(400).json({
+            message: "Error while uploading"
+          });
+        } else {
+          res.send({
+            message: "File uploaded successfully",
+            url: `/host/resume/${filename}`
           });
         }
-
-        jobApplicant.resume = file_dir        
-        await jobApplicant.save()
-        return res.status(200).json({
-          message: "File uploaded successfully",
-          url: file_dir,
-        });
-      })
-      .catch((err) => {
-        console.log(err)
-        res.status(400).json({
-          message: "Error while uploading",
-        });
-      });
+      }
+    );
   }
 });
 
 router.post("/profile", upload.single("file"), (req, res) => {
   const { file } = req;
-  if (
-    !['image/jpg', 'image/png'].includes(file.mimetype)
-  ) {
+  if (!["image/jpg", "image/png", "image/jpeg"].includes(file.mimetype)) {
     res.status(400).json({
-      message: "Invalid format",
+      message: "Invalid format"
     });
   } else {
-    const filename = `${uuidv4()}${file.originalname}`;
-
-    pipeline(
-      `${file.buffer}`,
-      fs.createWriteStream(`${__dirname}/../public/profile/${filename}`)
+    const filename = `${uuidv4()}${file.mimetype.replace("image/", ".")}`;
+    fs.writeFile(
+      `${__dirname}/../public/profile/${filename}`,
+      file.buffer,
+      (err) => {
+        if (err) {
+          res.status(400).json({
+            message: "Error while uploading"
+          });
+        } else {
+          res.send({
+            message: "Profile image uploaded successfully",
+            url: `/host/profile/${filename}`
+          });
+        }
+      }
     )
-      .then(() => {
-        res.send({
-          message: "Profile image uploaded successfully",
-          url: `/host/profile/${filename}`,
-        });
-      })
-      .catch((err) => {
-        res.status(400).json({
-          message: "Error while uploading",
-        });
-      });
   }
 });
 

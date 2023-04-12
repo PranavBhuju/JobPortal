@@ -20,7 +20,7 @@ import { makeStyles } from "@mui/styles";
 import axios from "axios";
 import { Search, ArrowUpward, ArrowDownward, AttachMoneyOutlined, AccessTimeOutlined } from "@mui/icons-material";
 import { SetPopupContext } from "../../App";
-import apiList from "../../lib/apiList";
+import apiList, { server } from "../../lib/apiList";
 import { userType } from "../../lib/isAuth";
 import { useNavigate } from "react-router-dom";
 
@@ -107,7 +107,7 @@ const JobTile = (props) => {
               <Avatar
                 variant="square"
                 sx={{ width: "5rem", height: "5rem" }}
-                src="https://1000logos.net/wp-content/uploads/2019/06/Tiktok_Logo.png" />
+                src={server + job.recruiter.profile} />
             </Grid>
             <Grid container direction="column">
               <Grid item>
