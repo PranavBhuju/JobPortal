@@ -151,7 +151,7 @@ export default function JobDetails(props) {
           }}
         >
           <Typography variant="h5" style={{ marginBottom: "10px" }}>
-            Bạn có chắc chắc muốn xóa bài tuyển dụng này?
+            Are you sure you want to delete this job posting?
           </Typography>
           <Grid container direction="row" justifyContent="space-around">
             <Grid item>
@@ -171,7 +171,7 @@ export default function JobDetails(props) {
                 style={{ padding: "10px 50px" }}
                 onClick={() => handleCloseDelete()}
               >
-                Hủy
+                Cancel
               </Button>
             </Grid>
           </Grid>
@@ -194,7 +194,7 @@ export default function JobDetails(props) {
           }}
         >
           <Typography variant="h4" style={{ marginBottom: "10px" }}>
-            Cập nhật bài tuyển dụng
+            Update recruitment post
           </Typography>
           <Grid
             container
@@ -204,7 +204,7 @@ export default function JobDetails(props) {
           >
             <Grid item>
               <TextField
-                label="Hạn ứng tuyển"
+                label="Application deadline"
                 type="datetime-local"
                 value={job.deadline.substr(0, 16)}
                 onChange={(event) => {
@@ -219,7 +219,7 @@ export default function JobDetails(props) {
             </Grid>
             <Grid item>
               <TextField
-                label="Số lượng ứng viên tối đa"
+                label="Maximum number of candidates"
                 type="number"
                 variant="outlined"
                 value={job.maxApplicants}
@@ -232,7 +232,7 @@ export default function JobDetails(props) {
             </Grid>
             <Grid item>
               <TextField
-                label="Số lượng tuyển dụng"
+                label="Number of recruitments"
                 type="number"
                 variant="outlined"
                 value={job.maxPositions}
@@ -252,7 +252,7 @@ export default function JobDetails(props) {
                 style={{ padding: "10px 50px" }}
                 onClick={() => handleJobUpdate()}
               >
-                Cập nhật
+                Update
               </Button>
             </Grid>
             <Grid item>
@@ -292,28 +292,28 @@ export default function JobDetails(props) {
         </Grid>
 
         <Grid container item width="60%" spacing={2}>
-          <Grid item container direction="row"><Typography fontWeight="600">Hình thức</Typography> : {job.jobType}</Grid>
-          <Grid item container direction="row"><Typography fontWeight="600">Mức lương</Typography> : {curencyFormatter.format(job.salary)} / tháng</Grid>
-          <Grid item container direction="row"><Typography fontWeight="600">Ngày đăng tuyển</Typography> : {postedOn.toLocaleDateString('vi-VN', { month: "long" })}</Grid>
-          <Grid item container direction="row"><Typography fontWeight="600">Hạn nộp hồ sơ</Typography> : {deadline.toLocaleDateString('vi-VN', { day: "numeric", month: "long", year: "numeric" })}</Grid>
-          <Grid item container direction="row"><Typography fontWeight="600">Số lượng ứng tuyển tối đa</Typography> : {job.maxApplicants}</Grid>
+          <Grid item container direction="row"><Typography fontWeight="600">Form</Typography> : {job.jobType}</Grid>
+          <Grid item container direction="row"><Typography fontWeight="600">Wage</Typography> : {curencyFormatter.format(job.salary)} / month</Grid>
+          <Grid item container direction="row"><Typography fontWeight="600">Job posting date</Typography> : {postedOn.toLocaleDateString('vi-VN', { month: "long" })}</Grid>
+          <Grid item container direction="row"><Typography fontWeight="600">Submission Deadline</Typography> : {deadline.toLocaleDateString('vi-VN', { day: "numeric", month: "long", year: "numeric" })}</Grid>
+          <Grid item container direction="row"><Typography fontWeight="600">Max No of Applications</Typography> : {job.maxApplicants}</Grid>
 
           <Grid item container direction="row">
-            <Typography variant="h6" fontWeight="600">Mô tả công việc</Typography>
+            <Typography variant="h6" fontWeight="600">Job description</Typography>
             <Typography variant="body1">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Typography>
           </Grid>
 
           <Grid item container direction="row">
-            <Typography variant="h6" fontWeight="600">Yêu cầu</Typography>
+            <Typography variant="h6" fontWeight="600">Request</Typography>
             <Typography variant="body1">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Typography>
           </Grid>
 
           <Grid item>
-            <Typography variant="h6" fontWeight="600">Thông tin ứng viên</Typography>
+            <Typography variant="h6" fontWeight="600">Candidate information</Typography>
             <Typography>
-              {numApplications} ứng viên đã ứng tuyển
+              {numApplications} candidate has applied
               {" "}
-              {<Link onClick={() => navigate(`/job/applications/${job._id}`)}>Xem chi tiết</Link>}
+              {<Link onClick={() => navigate(`/job/applications/${job._id}`)}>See details</Link>}
             </Typography>
           </Grid>
         </Grid>
@@ -323,13 +323,13 @@ export default function JobDetails(props) {
             variant="outlined"
             startIcon={<Update />}
             onClick={() => setOpenUpdate(true)}
-          >Cập nhật</Button>
+          >Update</Button>
           <Button 
             variant="contained" 
             color="error" 
             startIcon={<Delete />}
             onClick={() => setOpenDelete(true)}
-          >Xóa</Button>
+          >Erase</Button>
         </Grid>
 
         {jobModals()}

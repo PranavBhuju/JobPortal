@@ -130,17 +130,17 @@ const JobTile = (props) => {
 
             <Grid item container direction="row" alignItems="center" width="auto" gap={1}>
               <AttachMoneyOutlined />
-              <Typography variant="body2">{currencyFormatter.format(job.salary)} / tháng</Typography>
+              <Typography variant="body2">{currencyFormatter.format(job.salary)} / month</Typography>
             </Grid>
           </Grid>
 
           <Grid item container direction="column" spacing={1} marginTop="5px">
-            <Typography variant="body1">Ngày đăng : {postedOn.toLocaleDateString('vi-VN')}</Typography>
-            <Typography variant="body1">Hạn nộp hồ sơ : {deadline.toLocaleDateString('vi-VN')}</Typography>
+            <Typography variant="body1">Date Submitted : {postedOn.toLocaleDateString('vi-VN')}</Typography>
+            <Typography variant="body1">Submission deadline: {deadline.toLocaleDateString('vi-VN')}</Typography>
           </Grid>
 
           <Grid container item direction="row" alignItems="center" justifyContent="flex-end" paddingRight="20px" gap={4}>
-            <Link onClick={() => navigate(`/job/${job._id}`)}>Chi tiết</Link>
+            <Link onClick={() => navigate(`/job/${job._id}`)}>Details</Link>
             <Button
               variant="contained"
               color="primary"
@@ -150,7 +150,7 @@ const JobTile = (props) => {
               disabled={userType() === "recruiter"}
               sx={{ textTransform: "none" }}
             >
-              Ứng tuyển
+              Recruitment
             </Button>
 
             <Button
@@ -322,8 +322,8 @@ const Home = (props) => {
 
   const FilterDrawerLeft = () => (
     <Grid container direction="column" maxWidth={drawerWidth} paddingLeft={2}>
-      {/* <Divider textAlign="left">Hình thức làm việc</Divider> */}
-      <Typography>Hình thức làm việc</Typography>
+      {/* <Divider textAlign="left">Form of work</Divider> */}
+      <Typography>Type of work</Typography>
       <Grid
         container
         direction="column"
@@ -393,7 +393,7 @@ const Home = (props) => {
       </Grid>
 
       <Divider sx={{ margin: "20px 0" }}></Divider>
-      <Typography>Mức lương</Typography>
+      <Typography>Wage</Typography>
       <Grid container item alignItems="center" padding="0 20px">
         <Slider
           valueLabelDisplay="auto"
@@ -415,7 +415,7 @@ const Home = (props) => {
       </Grid>
 
       <Divider sx={{ margin: "20px 0" }}></Divider>
-      <Typography>Sắp xếp</Typography>
+      <Typography>Arrange</Typography>
       <Grid item container direction="column" alignItems="center">
         <Grid
           item
@@ -445,7 +445,7 @@ const Home = (props) => {
           </Grid>
           <Grid item>
             <label for="salary">
-              <Typography>Mức lương</Typography>
+              <Typography>Wage</Typography>
             </label>
           </Grid>
           <Grid item>
@@ -500,7 +500,7 @@ const Home = (props) => {
           </Grid>
           <Grid item>
             <label for="rating">
-              <Typography>Đánh giá</Typography>
+              <Typography>Evaluate</Typography>
             </label>
           </Grid>
           <Grid item>
@@ -548,11 +548,11 @@ const Home = (props) => {
           alignItems="center"
         >
           <Grid item xs>
-            <Typography variant="h3" padding={5}>Công việc</Typography>
+            <Typography variant="h3" padding={5}>Job</Typography>
           </Grid>
           <Grid item xs>
             <TextField
-              label="Bắt đầu tìm công việc mà bạn mong muốn..."
+              label="Start looking for the job you want..."
               value={searchOptions.query}
               onChange={(event) =>
                 setSearchOptions({
@@ -592,7 +592,7 @@ const Home = (props) => {
             })
           ) : (
             <Typography variant="h5" style={{ textAlign: "center" }}>
-              Không tìm thấy công việc nào
+              Did not find any work
             </Typography>
           )}
         </Grid>

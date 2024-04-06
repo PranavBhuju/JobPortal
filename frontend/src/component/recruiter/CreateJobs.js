@@ -111,7 +111,7 @@ const CreateJobs = (props) => {
           >
             <Grid item>
               <TextField
-                label="Vị trí tuyển dụng"
+                label="Vacancies"
                 value={jobDetails.title}
                 onChange={(event) =>
                   handleInput("title", event.target.value)
@@ -123,7 +123,7 @@ const CreateJobs = (props) => {
             <Grid item>
               <TextField
                 select
-                label="Hình thức làm việc"
+                label="Type of work"
                 variant="outlined"
                 value={jobDetails.jobType}
                 onChange={(event) => {
@@ -138,7 +138,7 @@ const CreateJobs = (props) => {
             </Grid>
             <Grid item>
               <NumericFormat
-                label="Mức lương"
+                label="Wage"
                 prefix="$"
                 thousandSeparator=","
                 customInput={TextField}
@@ -153,7 +153,7 @@ const CreateJobs = (props) => {
             </Grid>
             <Grid item>
               <TextField
-                label="Hạn nộp hồ sơ"
+                label="Submission Deadline"
                 type="datetime-local"
                 value={jobDetails.deadline}
                 onChange={(event) => {
@@ -168,7 +168,7 @@ const CreateJobs = (props) => {
             </Grid>
             <Grid item>
               <TextField
-                label="Số lượng đơn ứng tuyển tối đa"
+                label="Maximum number of applications"
                 type="number"
                 variant="outlined"
                 value={jobDetails.maxApplicants}
@@ -181,7 +181,7 @@ const CreateJobs = (props) => {
             </Grid>
             <Grid item>
               <TextField
-                label="Số lượng nhân viên tuyển dụng"
+                label="Number of employees recruited"
                 type="number"
                 variant="outlined"
                 value={jobDetails.maxPositions}
@@ -199,7 +199,7 @@ const CreateJobs = (props) => {
             style={{ padding: "10px 50px", marginTop: "30px" }}
             onClick={() => handleUpdate()}
           >
-            Xác nhận
+            Confirm
           </Button>
         </Paper>
       </Grid>

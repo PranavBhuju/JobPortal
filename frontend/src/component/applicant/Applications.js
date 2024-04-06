@@ -125,13 +125,13 @@ const ApplicationTile = (props) => {
   };
 
   const statusLabel = {
-    applied: "Đã ứng tuyển",
-    shortlisted: "Đang tuyển chọn",
-    accepted: "Đã được chấp nhận",
-    rejected: "Đã bị từ chối",
-    deleted: "Đã bị xóa",
-    cancelled: "Đã bị hủy",
-    finished: "Đã hoàn thành",
+    applied: "applied",
+    shortlisted: "shortlisted",
+    accepted: "accepted",
+    rejected: "rejected",
+    deleted: "deleted",
+    cancelled: "cancelled",
+    finished: "finished",
   };
 
   const currencyFormatter = new Intl.NumberFormat('en-US', {
@@ -177,19 +177,19 @@ const ApplicationTile = (props) => {
 
             <Grid item container direction="row" alignItems="center" width="auto" gap={1}>
               <AttachMoneyOutlined />
-              <Typography variant="body2">{currencyFormatter.format(application.job.salary)} / tháng</Typography>
+              <Typography variant="body2">{currencyFormatter.format(application.job.salary)} / month</Typography>
             </Grid>
           </Grid>
 
           <Grid item container direction="column" gap={1} marginTop="5px">
-            <Typography>Thời gian ứng tuyển: {appliedOn.toLocaleDateString('vi-VN')}</Typography>
+            <Typography>Application period: {appliedOn.toLocaleDateString('vi-VN')}</Typography>
             {application.status === "accepted" ||
               application.status === "finished" ? (
-              <Typography>Thời gian bắt đầu công việc: {joinedOn.toLocaleDateString('vi-VN')}</Typography>
+              <Typography>Work start time: {joinedOn.toLocaleDateString('vi-VN')}</Typography>
             ) : null}
 
             <Typography>
-              Trạng thái: {application.status ?
+            Status: {application.status ?
                 <span style={{ color: colorSet[application.status], fontWeight: 500 }}>
                   {statusLabel[application.status]}
                 </span> : null}
@@ -207,9 +207,9 @@ const ApplicationTile = (props) => {
                   setOpen(true);
                 }}
               >
-                Đánh giá
+                Evaluate
               </Button>) : null}
-            <Link onClick={() => navigate(`/job/${application.job._id}`)}>Chi tiết</Link>
+            <Link onClick={() => navigate(`/job/${application.job._id}`)}>Details</Link>
           </Grid>
         </Grid>
         <Modal open={open} onClose={handleClose} className={classes.popupDialog}>
@@ -239,7 +239,7 @@ const ApplicationTile = (props) => {
               style={{ padding: "10px 50px" }}
               onClick={() => changeRating()}
             >
-              Xác nhận
+              Confirm
             </Button>
           </Paper>
         </Modal>
@@ -286,7 +286,7 @@ const Applications = (props) => {
       style={{ padding: "30px", minHeight: "93vh" }}
     >
       <Grid item>
-        <Typography variant="h3" padding={5}>Việc làm đã ứng tuyển</Typography>
+        <Typography variant="h3" padding={5}>Job applied for</Typography>
       </Grid>
       <Grid
         container
@@ -300,7 +300,7 @@ const Applications = (props) => {
           ))
         ) : (
           <Typography variant="h5" style={{ textAlign: "center" }}>
-            Bạn chưa ứng tuyển vào công việc nào
+            You haven't applied for any jobs yet
           </Typography>
         )}
       </Grid>

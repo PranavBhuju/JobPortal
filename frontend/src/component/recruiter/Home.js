@@ -84,18 +84,18 @@ const JobTile = (props) => {
 
             <Grid item container direction="row" alignItems="center" width="auto" gap={1}>
               <AttachMoneyOutlined />
-              <Typography variant="body2">{curencyFormatter.format(job.salary)} / tháng</Typography>
+              <Typography variant="body2">{curencyFormatter.format(job.salary)} / month</Typography>
             </Grid>
           </Grid>
 
           <Grid item container direction="column" spacing={1} marginTop="5px">
-            <Typography variant="body1">Ngày đăng : {postedOn.toLocaleDateString('vi-VN')}</Typography>
-            <Typography variant="body1">Hạn nộp hồ sơ : {deadline.toLocaleDateString('vi-VN')}</Typography>
+            <Typography variant="body1">Date Submitted : {postedOn.toLocaleDateString('vi-VN')}</Typography>
+            <Typography variant="body1">Submission Deadline : {deadline.toLocaleDateString('vi-VN')}</Typography>
           </Grid>
 
           <Grid container item direction="row" alignItems="center" justifyContent="space-between" paddingRight="20px">
-            <Typography variant="body2" color="secondary">Số lượng ứng viên: {numApplications}/{job.maxApplicants}</Typography>
-            <Button variant="outlined" onClick={() => navigate(`/job/${job._id}`)}>Chi tiết</Button>
+            <Typography variant="body2" color="secondary">Number of candidates: {numApplications}/{job.maxApplicants}</Typography>
+            <Button variant="outlined" onClick={() => navigate(`/job/${job._id}`)}>Details</Button>
           </Grid>
         </Grid>
       </Paper>
@@ -215,8 +215,8 @@ const Home = (props) => {
 
   const FilterDrawerLeft = () => (
     <Grid container direction="column" maxWidth={drawerWidth} paddingLeft={2}>
-      {/* <Divider textAlign="left">Hình thức làm việc</Divider> */}
-      <Typography>Hình thức làm việc</Typography>
+      {/* <Divider textAlign="left">Form of work</Divider> */}
+      <Typography>Form of work</Typography>
       <Grid
         container
         direction="column"
@@ -286,7 +286,7 @@ const Home = (props) => {
       </Grid>
 
       <Divider sx={{ margin: "20px 0" }}></Divider>
-      <Typography>Mức lương</Typography>
+      <Typography>Wage</Typography>
       <Grid container item alignItems="center" padding="0 20px">
         <Slider
           valueLabelDisplay="auto"
@@ -308,7 +308,7 @@ const Home = (props) => {
       </Grid>
 
       <Divider sx={{ margin: "20px 0" }}></Divider>
-      <Typography>Sắp xếp</Typography>
+      <Typography>Arrange</Typography>
       <Grid item container direction="column" alignItems="center">
         <Grid
           item
@@ -338,7 +338,7 @@ const Home = (props) => {
           </Grid>
           <Grid item>
             <label for="salary">
-              <Typography>Mức lương</Typography>
+              <Typography>Wage</Typography>
             </label>
           </Grid>
           <Grid item>
@@ -393,7 +393,7 @@ const Home = (props) => {
           </Grid>
           <Grid item>
             <label for="rating">
-              <Typography>Đánh giá</Typography>
+              <Typography>Evaluate</Typography>
             </label>
           </Grid>
           <Grid item>
@@ -441,12 +441,12 @@ const Home = (props) => {
           alignItems="center"
         >
           <Grid item xs>
-            <Typography variant="h3" padding={5}>Công việc</Typography>
+            <Typography variant="h3" padding={5}>Job</Typography>
           </Grid>
           {/* <Grid item> */}
           <Box display="flex" flexDirection="row" alignItems="center">
             <TextField
-              label="Tìm kiếm các công việc bạn đã đăng..."
+              label="Search for jobs you've posted..."
               value={searchOptions.query}
               onChange={(event) =>
                 setSearchOptions({
@@ -472,13 +472,13 @@ const Home = (props) => {
               variant="outlined"
             />
 
-            <Typography variant="body1" padding="0 10px">hoặc</Typography>
+            <Typography variant="body1" padding="0 10px">or</Typography>
             <Button
               variant="contained"
               startIcon={<Add />}
               sx={{ borderRadius: "20px", textTransform: "none" }}
               onClick={() => setOpenCreateJobModal(true)}
-            >Thêm công việc mới</Button>
+            >Add new job</Button>
           </Box>
         </Grid>
 
@@ -496,7 +496,7 @@ const Home = (props) => {
             <Box display="flex" flexDirection="column" alignItems="center" marginY="auto">
               <SentimentVeryDissatisfied fontSize="large" />
               <Typography variant="h5" style={{ textAlign: "center" }}>
-                Không tìm thấy công việc nào...
+              Did not find any work...
               </Typography>
             </Box>
           )}

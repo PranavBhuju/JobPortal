@@ -316,7 +316,7 @@ const ApplicationTile = (props) => {
                 color="primary"
                 onClick={() => getResume()}
               >
-                Xem CV
+                Download resume
               </Button>
             </Grid>
             <Grid item>
@@ -454,7 +454,7 @@ const JobApplications = (props) => {
 
   const FilterBar = () => (
     <Grid container direction="column" width="320px" paddingLeft={2}>
-      <Typography variant="h6">Trạng thái</Typography>
+      <Typography variant="h6">Status</Typography>
       <Grid
         container
         direction="column"
@@ -543,7 +543,7 @@ const JobApplications = (props) => {
       </Grid>
 
       <Divider sx={{ margin: "20px 0" }}></Divider>
-      <Typography variant="h6">Sắp xếp</Typography>
+      <Typography variant="h6">Organize</Typography>
       <Grid container direction="column" padding="0 10px">
         <Grid
           item
@@ -729,7 +729,7 @@ const JobApplications = (props) => {
             <Box display="flex" flexDirection="column" alignItems="center" marginY="auto">
               <SentimentVeryDissatisfied fontSize="large" />
               <Typography variant="h5" style={{ textAlign: "center" }}>
-                Không tìm thấy đơn ứng tuyển nào...
+                No applications found...
               </Typography>
             </Box>
           )}

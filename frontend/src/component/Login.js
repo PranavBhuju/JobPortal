@@ -86,7 +86,7 @@ const Login = (props) => {
           setPopup({
             open: true,
             severity: "success",
-            message: "Đăng nhập thành công",
+            message: "Logged in successfully",
           });
           console.log(response);
         })
@@ -102,7 +102,7 @@ const Login = (props) => {
       setPopup({
         open: true,
         severity: "error",
-        message: "Thông tin không chính xác",
+        message: "Incorrect information",
       });
     }
   };
@@ -114,7 +114,7 @@ const Login = (props) => {
       <Grid container margin="20vh 0" width="50%" direction="column" spacing={4} alignItems="center">
         <Grid item>
           <Typography variant="h4" fontWeight={500} color="primary">
-            Đăng nhập
+            Log in
           </Typography>
         </Grid>
         <Grid item>
@@ -129,7 +129,7 @@ const Login = (props) => {
         </Grid>
         <Grid item>
           <PasswordInput
-            label="Mật khẩu"
+            label="Password"
             value={loginDetails.password}
             onChange={(event) => handleInput("password", event.target.value)}
             className={classes.inputBox}
@@ -142,7 +142,7 @@ const Login = (props) => {
             onClick={() => handleLogin()}
             className={classes.submitButton}
           >
-            Xác nhận
+            Confirm
           </Button>
         </Grid>
       </Grid>

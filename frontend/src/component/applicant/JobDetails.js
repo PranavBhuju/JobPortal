@@ -126,26 +126,26 @@ export default function JobDetails(props) {
         </Grid>
 
         <Grid container item width="60%" spacing={2}>
-          <Grid item container direction="row"><Typography fontWeight="600">Hình thức</Typography> : {job.jobType}</Grid>
-          <Grid item container direction="row"><Typography fontWeight="600">Mức lương</Typography> : {curencyFormatter.format(job.salary)} / tháng</Grid>
-          <Grid item container direction="row"><Typography fontWeight="600">Ngày đăng tuyển</Typography> : {postedOn.toLocaleDateString('vi-VN', { month: "long" })}</Grid>
-          <Grid item container direction="row"><Typography fontWeight="600">Hạn nộp hồ sơ</Typography> : {deadline.toLocaleDateString('vi-VN', { day: "numeric", month: "long", year: "numeric" })}</Grid>
-          <Grid item container direction="row"><Typography fontWeight="600">Số lượng ứng tuyển tối đa</Typography> : {job.maxApplicants}</Grid>
+          <Grid item container direction="row"><Typography fontWeight="600">Type</Typography> : {job.jobType}</Grid>
+          <Grid item container direction="row"><Typography fontWeight="600">Wage</Typography> : {curencyFormatter.format(job.salary)} / month</Grid>
+          <Grid item container direction="row"><Typography fontWeight="600">Job posting date</Typography> : {postedOn.toLocaleDateString('vi-VN', { month: "long" })}</Grid>
+          <Grid item container direction="row"><Typography fontWeight="600">Submission deadline</Typography> : {deadline.toLocaleDateString('vi-VN', { day: "numeric", month: "long", year: "numeric" })}</Grid>
+          <Grid item container direction="row"><Typography fontWeight="600">Maximum number of applications</Typography> : {job.maxApplicants}</Grid>
 
           <Grid item container direction="row">
-            <Typography variant="h6" fontWeight="600">Mô tả công việc</Typography>
+            <Typography variant="h6" fontWeight="600">Job description</Typography>
             <Typography variant="body1">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Typography>
           </Grid>
 
           <Grid item container direction="row">
-            <Typography variant="h6" fontWeight="600">Yêu cầu</Typography>
+            <Typography variant="h6" fontWeight="600">Request</Typography>
             <Typography variant="body1">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Typography>
           </Grid>
 
           <Grid item>
-            <Typography variant="h6" fontWeight="600">Thông tin ứng viên</Typography>
+            <Typography variant="h6" fontWeight="600">Candidate information</Typography>
             <Typography>
-              {numApplications} ứng viên đã ứng tuyển
+              {numApplications} candidate has applied
               {" "}
             </Typography>
           </Grid>
@@ -155,7 +155,7 @@ export default function JobDetails(props) {
           <Button
             variant="contained"
             onClick={() => setOpen(true)}
-          >Ứng tuyển</Button>
+          >Recruitment</Button>
         </Grid>
 
         <Modal open={open} onClose={handleClose} className={classes.popupDialog}>

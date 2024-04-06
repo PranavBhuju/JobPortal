@@ -98,7 +98,7 @@ const MultifieldInput = (props) => {
           startIcon={<Add />}
           sx={{ textTransform: "none" }}
         >
-          Thêm thông tin học vấn
+          Add more
         </Button>
       </Grid>
     </>
@@ -223,15 +223,15 @@ const Profile = (props) => {
       <Grid container direction="row" flexWrap="nowrap">
         <Grid container direction="column" margin="0 auto" xs={7} gap={2}>
           <Grid item>
-            <Typography variant="h4" color="primary" fontWeight={600}>Cập nhật hồ sơ</Typography>
+            <Typography variant="h4" color="primary" fontWeight={600}>Update profile</Typography>
           </Grid>
 
           <Divider variant="fullWidth" />
 
-          <Typography variant="h6" color="secondary" fontWeight={500}>Thông tin cơ bản</Typography>
+          <Typography variant="h6" color="secondary" fontWeight={500}>Basic information</Typography>
           <Grid item>
             <TextField
-              label="Họ và tên"
+              label="Full Name"
               value={profileDetails.name}
               onChange={(event) => handleInput("name", event.target.value)}
               className={classes.inputBox}
@@ -241,7 +241,7 @@ const Profile = (props) => {
             />
           </Grid>
 
-          <Typography variant="h6" color="secondary" fontWeight={500}>Học vấn</Typography>
+          <Typography variant="h6" color="secondary" fontWeight={500}>Education</Typography>
           <Grid item>
             <MultifieldInput
               education={education}
@@ -249,7 +249,7 @@ const Profile = (props) => {
             />
           </Grid>
 
-          <Typography variant="h6" color="secondary" fontWeight={500}>Công việc</Typography>
+          <Typography variant="h6" color="secondary" fontWeight={500}>Job</Typography>
           <Grid item>
             <FileUploadInput
               className={classes.inputBox}
@@ -263,7 +263,7 @@ const Profile = (props) => {
         </Grid>
 
         <Grid container direction="column" xs={3} gap={2} alignContent="center">
-          <Typography variant="h6" color="secondary">Ảnh đại diện</Typography>
+          <Typography variant="h6" color="secondary">Avatar</Typography>
 
           <AvatarWithUpload 
             src={server + profileDetails.profile}
@@ -278,7 +278,7 @@ const Profile = (props) => {
         style={{ padding: "10px 50px", marginTop: "30px" }}
         onClick={() => handleUpdate()}
       >
-        Cập nhật hồ sơ
+        Update profile
       </Button>
     </Grid>
   );

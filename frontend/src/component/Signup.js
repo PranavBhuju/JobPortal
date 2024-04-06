@@ -105,7 +105,7 @@ const Signup = (props) => {
           required: true,
           untouched: false,
           error: true,
-          message: `${obj[0].toUpperCase() + obj.substring(1)} không được để trống`,
+          message: `${obj[0].toUpperCase() + obj.substring(1)} cannot be left blank`,
         };
       } else {
         tmpErrorHandler[obj] = inputErrorHandler[obj];
@@ -146,7 +146,7 @@ const Signup = (props) => {
       setPopup({
         open: true,
         severity: "error",
-        message: "Thông tin không chính xác",
+        message: "Inaccurate Information",
       });
     }
   };
@@ -159,7 +159,7 @@ const Signup = (props) => {
           required: true,
           untouched: false,
           error: true,
-          message: `${obj[0].toUpperCase() + obj.substring(1)} không được để trống`,
+          message: `${obj[0].toUpperCase() + obj.substring(1)} cannot be left blank`,
         };
       } else {
         tmpErrorHandler[obj] = inputErrorHandler[obj];
@@ -216,7 +216,7 @@ const Signup = (props) => {
       setPopup({
         open: true,
         severity: "error",
-        message: "Thông tin không chính xác",
+        message: "Incorrect information",
       });
     }
   };
@@ -225,7 +225,7 @@ const Signup = (props) => {
     <>
       <Grid item>
         <TextField
-          label="Họ và tên"
+          label="Full name"
           value={signupDetails.name}
           onChange={(event) => handleInput("name", event.target.value)}
           className={classes.inputBox}
@@ -233,7 +233,7 @@ const Signup = (props) => {
           helperText={inputErrorHandler.name.message}
           onBlur={(event) => {
             if (event.target.value === "") {
-              handleInputError("name", true, "Họ và tên không được để trống");
+              handleInputError("name", true, "Full name cannot be left blank");
             } else {
               handleInputError("name", false, "");
             }
@@ -254,7 +254,7 @@ const Signup = (props) => {
       </Grid>
       <Grid item>
         <PasswordInput
-          label="Mật khẩu"
+          label="Password"
           value={signupDetails.password}
           onChange={(event) => handleInput("password", event.target.value)}
           className={classes.inputBox}
@@ -262,7 +262,7 @@ const Signup = (props) => {
           helperText={inputErrorHandler.password.message}
           onBlur={(event) => {
             if (event.target.value === "") {
-              handleInputError("password", true, "Mật khẩu là bắt buộc");
+              handleInputError("password", true, "Password is required");
             } else {
               handleInputError("password", false, "");
             }
@@ -276,7 +276,7 @@ const Signup = (props) => {
     <>
       <Grid item>
         <TextField
-          label="Tên công ty"
+          label="Company name"
           value={signupDetails.name}
           onChange={(event) => handleInput("name", event.target.value)}
           className={classes.inputBox}
@@ -284,7 +284,7 @@ const Signup = (props) => {
           helperText={inputErrorHandler.name.message}
           onBlur={(event) => {
             if (event.target.value === "") {
-              handleInputError("name", true, "Tên công ty được để trống");
+              handleInputError("name", true, "Company name is blank");
             } else {
               handleInputError("name", false, "");
             }
@@ -305,7 +305,7 @@ const Signup = (props) => {
       </Grid>
       <Grid item>
         <PasswordInput
-          label="Mật khẩu"
+          label="Password"
           value={signupDetails.password}
           onChange={(event) => handleInput("password", event.target.value)}
           className={classes.inputBox}
@@ -313,7 +313,7 @@ const Signup = (props) => {
           helperText={inputErrorHandler.password.message}
           onBlur={(event) => {
             if (event.target.value === "") {
-              handleInputError("password", true, "Mật khẩu là bắt buộc");
+              handleInputError("password", true, "Password is required");
             } else {
               handleInputError("password", false, "");
             }
@@ -341,8 +341,8 @@ const Signup = (props) => {
       </Grid>
       <Grid item>
         <PhoneInput
-          specialLabel="Số điện thoại"
-          country="vn"
+          specialLabel="Phone number"
+          country="in"
           value={phone}
           onChange={(phone) => setPhone(phone)}
         />
@@ -356,7 +356,7 @@ const Signup = (props) => {
         <Grid container direction="column" spacing={4} alignItems="center">
           <Grid item>
             <Typography variant="h4" fontWeight={500} color="primary">
-              Đăng ký
+            Register
             </Typography>
           </Grid>
           {signupDetails.type === "recruiter" ? recruiterSignupForm() : applicantSignupForm()}
@@ -370,7 +370,7 @@ const Signup = (props) => {
               }}
               className={classes.submitButton}
             >
-              Xác nhận
+              Confirm
             </Button>
           </Grid>
         </Grid>
@@ -378,8 +378,8 @@ const Signup = (props) => {
       <Grid container direction="column" width="50%" alignItems="center">
         <Box component="img" margin="0 auto" src={signupDetails.type === "recruiter" ? "recruiter_abstract.jpg" : "applicant_abstract.jpg"} />
         {signupDetails.type === "recruiter" ?
-          <Typography variant="h6">Kết nối với hàng ngàn ứng viên tiềm năng cho công việc của bạn</Typography>
-          : <Typography variant="h6">Tìm việc làm cực kỳ đơn giản với <Box component="span" color="#0e76ab">LinkedCV</Box></Typography>
+          <Typography variant="h6">Connect with thousands of potential candidates for your job</Typography>
+          : <Typography variant="h6">Finding a job is extremely simple with <Box component="span" color="#0e76ab">LinkedCV</Box></Typography>
         }
       </Grid>
     </Grid >
@@ -387,19 +387,19 @@ const Signup = (props) => {
 
   const signupTypeChooser = () => (
     <Dialog open={signupDetails.type === undefined} fullWidth maxWidth="md" PaperProps={{ style: { borderRadius: 20 } }}>
-      <DialogTitle textAlign="center" fontWeight="600" color="primary">Bạn là?</DialogTitle>
+      <DialogTitle textAlign="center" fontWeight="600" color="primary">You are?</DialogTitle>
       <DialogContent>
         <Grid container flexWrap="nowrap" direction="row" spacing={4}>
           <Grid container direction="column" alignItems="center">
             <Box component="img" src="applicant_abstract.jpg" width={400} />
             <Button variant="text" color="primary" sx={{ textTransform: "capitalize", fontWeight: 600 }} onClick={() => setSignupDetails({ type: "applicant" })}>
-              Ứng viên tìm việc
+              A Job seekers
             </Button>
           </Grid>
           <Grid container direction="column" alignItems="center">
             <Box component="img" src="recruiter_abstract.jpg" width={400} />
             <Button variant="text" color="primary" sx={{ textTransform: "capitalize", fontWeight: 600 }} onClick={() => setSignupDetails({ type: "recruiter" })}>
-              Nhà tuyển dụng
+              An Employer
             </Button>
           </Grid>
         </Grid>

@@ -71,7 +71,7 @@ const ChatHome = () => {
         {
           chats.length === 0 && <div style={{
             margin: "10px auto",
-          }}>NO CHAT</div>
+          }}>No chats available</div>
         }
         {
           chats.map((chat, index) => {

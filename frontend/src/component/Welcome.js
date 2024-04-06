@@ -45,12 +45,12 @@ const Welcome = (props) => {
           }}
         >
           <Grid item maxWidth="50%">
-            <Title>Bắt đầu công việc phù hợp với bạn</Title>
-            <LinkButton onClick={() => navigateToSignup('applicant')}>Tìm việc ngay <span>&#8594;</span></LinkButton>
+            <Title>Start the job that's right for you</Title>
+            <LinkButton onClick={() => navigateToSignup('applicant')}>Find a job now <span>&#8594;</span></LinkButton>
           </Grid>
           <Grid item maxWidth="50%">
-            <Title>Đăng tin tuyển dụng, tìm ứng viên</Title>
-            <LinkButton onClick={() => navigateToSignup('recruiter')}>Xem CV của các ứng viên <span>&#8594;</span></LinkButton>
+            <Title>Looking to hire?</Title>
+            <LinkButton onClick={() => navigateToSignup('recruiter')}>Find the right candidate <span>&#8594;</span></LinkButton>
           </Grid>
         </Grid>
       )

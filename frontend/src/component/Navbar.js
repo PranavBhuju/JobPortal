@@ -62,19 +62,19 @@ const Navbar = (props) => {
   const recruiterToolBar = () => (
     <Container>
       <LinkButton onClick={() => handleClick("/home")}>
-        Trang chủ
+        HomePage
       </LinkButton>
-      {/* <LinkButton onClick={() => handleClick("/employees")}>
-        Ứng viên
-      </LinkButton> */}
+      <LinkButton onClick={() => handleClick("/employees")}>
+        Candidate
+      </LinkButton>
       <LinkButton onClick={() => handleClick("/profile")}>
-        Hồ sơ
+        File
       </LinkButton>
       <LinkButton onClick={() => handleClick("/chat")}>
         Chat
       </LinkButton>
       <LinkButton onClick={() => handleClick("/logout")}>
-        Đăng xuất
+        LogOut
       </LinkButton>
     </Container>
   );
@@ -82,33 +82,33 @@ const Navbar = (props) => {
   const applicantToolBar = () => (
     <Container>
       <LinkButton onClick={() => handleClick("/home")}>
-        Trang chủ
+        Home page
       </LinkButton>
       <LinkButton onClick={() => handleClick("/applications")}>
-        Ứng tuyển
+      Recruitment
       </LinkButton>
       <LinkButton onClick={() => handleClick("/profile")}>
-        Hồ sơ
+      File
       </LinkButton>
       <LinkButton onClick={() => handleClick("/chat")}>
         Chat
       </LinkButton>
       <LinkButton onClick={() => handleClick("/logout")}>
-        Đăng xuất
+        LogOut
       </LinkButton>
     </Container>
   );
 
   const publicToolBar = () => (
     <Container>
-      <LinkButton onClick={() => handleClick("/login")}>Đăng nhập</LinkButton>
+      <LinkButton onClick={() => handleClick("/login")}>Log In</LinkButton>
       <LinkButton 
         sx={{
           color: "white",
           backgroundColor: "#006699",
           borderRadius: "5px",
         }}
-        onClick={() => handleClick("/signup")}>Đăng ký</LinkButton>
+        onClick={() => handleClick("/signup")}>Sign Up</LinkButton>
     </Container>
   );
 
