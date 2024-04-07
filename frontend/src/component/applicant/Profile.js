@@ -260,6 +260,11 @@ const Profile = (props) => {
               identifier={"resume"}
             />
           </Grid>
+          <Grid>
+            <Button>
+              Build Your Resume
+            </Button>
+          </Grid>
         </Grid>
 
         <Grid container direction="column" xs={3} gap={2} alignContent="center">

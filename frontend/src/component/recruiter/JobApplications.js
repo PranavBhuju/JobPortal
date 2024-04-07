@@ -318,6 +318,16 @@ const ApplicationTile = (props) => {
               >
                 Download resume
               </Button>
+
+              <Button
+                variant="text"
+                className={classes.statusBlock}
+                color="primary"
+                onClick={() => getResume()}
+              >
+                Parse resume
+              </Button>
+
             </Grid>
             <Grid item>
               <Button 
