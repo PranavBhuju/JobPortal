@@ -94,7 +94,8 @@ const JobTile = (props) => {
           </Grid>
 
           <Grid container item direction="row" alignItems="center" justifyContent="space-between" paddingRight="20px">
-            <Typography variant="body2" color="secondary">Number of candidates: {numApplications}/{job.maxApplicants}</Typography>
+            <Typography variant="body2" color="secondary">{<Link onClick={() => navigate(`/job/applications/${job._id}`)}>Number of candidates:</Link>} {numApplications}/{job.maxApplicants}</Typography>
+            {/* <Button variant="outlined">{<Link onClick={() => navigate(`/job/applications/${job._id}`)}>See details</Link>}</Button> */}
             <Button variant="outlined" onClick={() => navigate(`/job/${job._id}`)}>Details</Button>
           </Grid>
         </Grid>

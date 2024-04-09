@@ -155,7 +155,7 @@ export default function JobDetails(props) {
           <Button
             variant="contained"
             onClick={() => setOpen(true)}
-          >Recruitment</Button>
+          >Apply</Button>
         </Grid>
 
         <Modal open={open} onClose={handleClose} className={classes.popupDialog}>

@@ -65,10 +65,10 @@ const Navbar = (props) => {
         HomePage
       </LinkButton>
       <LinkButton onClick={() => handleClick("/employees")}>
-        Candidate
+        Employee
       </LinkButton>
       <LinkButton onClick={() => handleClick("/profile")}>
-        File
+        Profile
       </LinkButton>
       <LinkButton onClick={() => handleClick("/chat")}>
         Chat
@@ -85,10 +85,10 @@ const Navbar = (props) => {
         Home page
       </LinkButton>
       <LinkButton onClick={() => handleClick("/applications")}>
-      Recruitment
+      Jobs Applied
       </LinkButton>
       <LinkButton onClick={() => handleClick("/profile")}>
-      File
+      Profile
       </LinkButton>
       <LinkButton onClick={() => handleClick("/chat")}>
         Chat

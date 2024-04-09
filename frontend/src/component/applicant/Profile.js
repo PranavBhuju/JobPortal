@@ -1,19 +1,10 @@
-import { useContext, useEffect, useState } from "react";
-import {
-  Button,
-  Grid,
-  Typography,
-  TextField,
-  Divider,
-  Avatar
-} from "@mui/material";
+import React, { useState, useEffect, useContext } from 'react';
+import { Button, Grid, Typography, TextField, Divider } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import axios from "axios";
 import FileUploadInput from "../../lib/FileUploadInput";
-import { Add, Description, Edit, Face, Person } from "@mui/icons-material";
-
+import { Add, Description } from "@mui/icons-material";
 import { SetPopupContext } from "../../App";
-
 import apiList, { server } from "../../lib/apiList";
 import AvatarWithUpload from "../../lib/AvatarWithUpload";
 
@@ -211,6 +202,11 @@ const Profile = (props) => {
     setOpen(false);
   };
 
+  // Function to handle opening the popup window
+  const openPopup = (url) => {
+    window.open(url, "popupWindow", "width=600,height=400,scrollbars=yes");
+  };
+
   return (
     <Grid
       container
@@ -261,8 +257,9 @@ const Profile = (props) => {
             />
           </Grid>
           <Grid>
-            <Button>
-              Build Your Resume
+            {/* Button triggering the popup */}
+            <Button onClick={() => openPopup("http://localhost:3001/resume-builder")}>
+              Build Resume
             </Button>
           </Grid>
         </Grid>

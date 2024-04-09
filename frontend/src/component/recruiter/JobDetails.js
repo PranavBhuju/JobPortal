@@ -313,7 +313,7 @@ export default function JobDetails(props) {
             <Typography>
               {numApplications} candidate has applied
               {" "}
-              {<Link onClick={() => navigate(`/job/applications/${job._id}`)}>See details</Link>}
+              <Button variant="outlined">{<Link onClick={() => navigate(`/job/applications/${job._id}`)}>See details</Link>}</Button>
             </Typography>
           </Grid>
         </Grid>

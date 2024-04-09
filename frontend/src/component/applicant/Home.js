@@ -150,7 +150,7 @@ const JobTile = (props) => {
               disabled={userType() === "recruiter"}
               sx={{ textTransform: "none" }}
             >
-              Recruitment
+              Apply
             </Button>
 
             <Button

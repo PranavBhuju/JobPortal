@@ -22,6 +22,7 @@ import { SetPopupContext } from "../../App";
 
 import apiList, { server } from "../../lib/apiList";
 
+
 const useStyles = makeStyles((theme) => ({
   body: {
     height: "inherit",
@@ -48,14 +49,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
+
+
 const ApplicationTile = (props) => {
   const classes = useStyles();
   const navigate = useNavigate();
   const { application, getData } = props;
   const setPopup = useContext(SetPopupContext);
   const [open, setOpen] = useState(false);
+  const [openPopup, setOpenPopup] = useState(false);
 
   const appliedOn = new Date(application.dateOfApplication);
+  
+  const handlePopupOpen = () => {
+    setOpenPopup(true);
+  };
+
+  const handlePopupClose = () => {
+    setOpenPopup(false);
+  };
 
   const handleClose = () => {
     setOpen(false);
@@ -318,15 +330,16 @@ const ApplicationTile = (props) => {
               >
                 Download resume
               </Button>
+              <a href="http://localhost:3001/resume-parser" target="_blank" rel="noopener noreferrer">
+                <Button
+                  variant="text"
+                  className={classes.statusBlock}
+                  color="primary"
+                >
+                  Parse resume
+                </Button>
+              </a>
 
-              <Button
-                variant="text"
-                className={classes.statusBlock}
-                color="primary"
-                onClick={() => getResume()}
-              >
-                Parse resume
-              </Button>
 
             </Grid>
             <Grid item>
