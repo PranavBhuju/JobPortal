@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx nodemon server.js"
+    "start": "concurrently \"npx nodemon server.js\" \"cd C:/Users/N. Prakash Bhuju/Desktop/open-resume && npm run dev -- --port 3001\""
   },
   "author": "",
   "license": "ISC",
