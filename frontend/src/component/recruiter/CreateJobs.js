@@ -44,6 +44,7 @@ const CreateJobs = (props) => {
     jobType: "Full Time",
     duration: 0,
     salary: 0,
+    description: ""
   });
 
   const handleInput = (key, value) => {
@@ -52,9 +53,29 @@ const CreateJobs = (props) => {
       [key]: value,
     });
   };
+  const handleSkillsInput = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      const newSkill = event.target.value.trim();
+      if (newSkill) {
+        setJobDetails(prevState => ({
+          ...prevState,
+          skillsets: [...prevState.skillsets, newSkill]
+        }));
+        event.target.value = '';
+      }
+    }
+  };
+
+  const handleDeleteSkill = (index) => {
+    setJobDetails(prevState => ({
+      ...prevState,
+      skillsets: prevState.skillsets.filter((_, i) => i !== index)
+    }));
+  };
 
   const handleUpdate = () => {
-    console.log(jobDetails);
+
     axios
       .post(apiList.jobs, jobDetails, {
         headers: {
@@ -78,6 +99,7 @@ const CreateJobs = (props) => {
           jobType: "Full Time",
           duration: 0,
           salary: 0,
+          description: ""
         });
       })
       .catch((err) => {
@@ -91,7 +113,7 @@ const CreateJobs = (props) => {
   };
 
   return (
-    <Grid container item xs direction="column" sx={{paddingTop: "50px"}}>
+    <Grid container item xs direction="column" sx={{ paddingTop: "50px" }}>
       <Grid item>
         <Paper
           style={{
@@ -111,7 +133,7 @@ const CreateJobs = (props) => {
           >
             <Grid item>
               <TextField
-                label="Vacancies"
+                label="Job Title"
                 value={jobDetails.title}
                 onChange={(event) =>
                   handleInput("title", event.target.value)
@@ -181,7 +203,7 @@ const CreateJobs = (props) => {
             </Grid>
             <Grid item>
               <TextField
-                label="Number of employees recruited"
+                label="Number of employees to recruit"
                 type="number"
                 variant="outlined"
                 value={jobDetails.maxPositions}
@@ -192,6 +214,35 @@ const CreateJobs = (props) => {
                 fullWidth
               />
             </Grid>
+
+            <Grid item>
+              <TextField
+                label="Description"
+                value={jobDetails.description}
+                onChange={(event) =>
+                  handleInput("description", event.target.value)
+                }
+                variant="outlined"
+                fullWidth
+              />
+            </Grid>
+
+            <Grid item>
+              <TextField
+                label="Skills Required"
+                variant="outlined"
+                fullWidth
+                onKeyDown={handleSkillsInput}
+              />
+              <Grid container spacing={1} style={{ marginTop: 5 }}>
+                {jobDetails.skillsets.map((skill, index) => (
+                  <Grid item key={index}>
+                    <Chip label={skill} onDelete={() => handleDeleteSkill(index)} />
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+
           </Grid>
           <Button
             variant="contained"

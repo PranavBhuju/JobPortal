@@ -36,6 +36,7 @@ router.post("/jobs", jwtAuth, (req, res) => {
     duration: data.duration,
     salary: data.salary,
     rating: data.rating,
+    description: data.description
   });
 
   job
@@ -640,7 +641,7 @@ router.get("/applications", jwtAuth, (req, res) => {
   // const limit = parseInt(req.query.limit) ? parseInt(req.query.limit) : 10;
   // const skip = page - 1 >= 0 ? (page - 1) * limit : 0;
 
-  Application.aggregate([     
+  Application.aggregate([
     {
       $lookup: {
         from: "jobapplicantinfos",

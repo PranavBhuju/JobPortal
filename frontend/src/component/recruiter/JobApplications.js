@@ -1,27 +1,11 @@
 import { useState, useEffect, useContext } from "react";
-import {
-  Button,
-  Grid,
-  IconButton,
-  Paper,
-  Typography,
-  Modal,
-  FormControlLabel,
-  Checkbox,
-  Avatar,
-  Rating,
-  Divider,
-  Box
-} from "@mui/material";
+import { Button, Grid, IconButton, Paper, Typography, Modal, FormControlLabel, Checkbox, Avatar, Rating, Divider, Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { ArrowUpward, ArrowDownward, SentimentDissatisfied, SentimentVeryDissatisfiedRounded, SentimentVeryDissatisfied, } from "@mui/icons-material";
-
 import { SetPopupContext } from "../../App";
-
 import apiList, { server } from "../../lib/apiList";
-
 
 const useStyles = makeStyles((theme) => ({
   body: {
@@ -48,9 +32,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
-
-
 const ApplicationTile = (props) => {
   const classes = useStyles();
   const navigate = useNavigate();
@@ -60,7 +41,7 @@ const ApplicationTile = (props) => {
   const [openPopup, setOpenPopup] = useState(false);
 
   const appliedOn = new Date(application.dateOfApplication);
-  
+
   const handlePopupOpen = () => {
     setOpenPopup(true);
   };
@@ -91,25 +72,7 @@ const ApplicationTile = (props) => {
     ) {
       const address = `${server}${application.jobApplicant.resume}`;
       console.log("address resume", address);
-      axios(address, {
-        method: "GET",
-        responseType: "blob",
-      })
-        .then((response) => {
-          const file = new Blob([response.data], { type: "application/pdf" });
-          console.log("file", file)
-          const fileURL = URL.createObjectURL(file);
-          console.log("fileURL", fileURL)
-          window.open(fileURL);
-        })
-        .catch((error) => {
-          console.log(error);
-          setPopup({
-            open: true,
-            severity: "error",
-            message: "Error",
-          });
-        });
+      window.open(address);
     } else {
       setPopup({
         open: true,
@@ -118,6 +81,7 @@ const ApplicationTile = (props) => {
       });
     }
   };
+
 
   const updateStatus = (status) => {
     const address = `${apiList.applications}/${application._id}`;
@@ -322,28 +286,11 @@ const ApplicationTile = (props) => {
 
           <Grid container justifyContent="flex-end" alignItems="flex-start" gap={1}>
             <Grid item>
-              <Button
-                variant="text"
-                className={classes.statusBlock}
-                color="primary"
-                onClick={() => getResume()}
-              >
-                Download resume
-              </Button>
-              <a href="http://localhost:3001/resume-parser" target="_blank" rel="noopener noreferrer">
-                <Button
-                  variant="text"
-                  className={classes.statusBlock}
-                  color="primary"
-                >
-                  Parse resume
-                </Button>
-              </a>
-
-
+              <Button variant="contained" sx={{ marginRight: 1 }} className={classes.statusBlock} color="primary" onClick={() => getResume()}>Download resume</Button>
+              <Button variant="contained"className={classes.statusBlock} color="primary" onClick={() => window.open("http://localhost:3001/resume-parser", "_blank")} > Parse Resume</Button>
             </Grid>
             <Grid item>
-              <Button 
+              <Button
                 variant="contained"
                 onClick={() => {
                   navigate(`/chat/${application.jobApplicant._id}`)

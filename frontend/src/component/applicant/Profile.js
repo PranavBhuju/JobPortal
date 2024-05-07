@@ -258,7 +258,7 @@ const Profile = (props) => {
           </Grid>
           <Grid>
             {/* Button triggering the popup */}
-            <Button onClick={() => openPopup("http://localhost:3001/resume-builder")}>
+            <Button onClick={() => window.open("http://localhost:3001/resume-builder")}>
               Build Resume
             </Button>
           </Grid>
